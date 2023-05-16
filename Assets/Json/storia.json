@@ -1,0 +1,52 @@
+{
+    "data": [
+        {
+            "id": 1,
+            "immagine": "caporetto.jpg",
+            "nome": "Battaglia di Caporetto",
+            "anno": 1917
+        },
+        {
+            "id": 2,
+            "immagine": "America.jpg",
+            "nome": "Scoperta dell’America",
+            "anno": 1492
+        },
+        {
+            "id": 3,
+            "immagine": "RomanoCaduto.jpg",
+            "nome": "Caduta dell’Impero Romano",
+            "anno": 476
+        },
+        {
+            "id": 4,
+            "immagine": "RivoluzioneFrancese.jpg",
+            "nome": "Inizio della Rivoluzione Francese",
+            "anno": 1789
+        },
+        {
+            "id": 5,
+            "immagine": "stampaMobile.jpg",
+            "nome": "Invenzione della stampante a caratteri di Gutenberg",
+            "anno": 1454
+        },
+        {
+            "id": 6,
+            "immagine": "morteHitler.jpg",
+            "nome": "Suicidio di Adolf Hitler",
+            "anno": 1945
+        },
+        {
+            "id": 7,
+            "immagine": "martediNero.jpg",
+            "nome": "Crollo della borsa americana",
+            "anno": 1929
+        },
+        {
+            "id": 8,
+            "immagine": "primaCrociata.jpg",
+            "nome": "Prima Crociata",
+            "anno": 1095
+        }
+    ]
+}

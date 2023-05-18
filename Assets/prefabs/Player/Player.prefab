@@ -130,6 +130,7 @@ MonoBehaviour:
   arrPiani: []
   myStats: {fileID: 0}
   namePlayer: 
+  team: 
 --- !u!95 &3623874091514563722
 Animator:
   serializedVersion: 4
@@ -816,7 +817,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 115
   orthographic: 0
   orthographic size: 5
   m_Depth: 0

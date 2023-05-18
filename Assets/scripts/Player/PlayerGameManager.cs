@@ -66,6 +66,7 @@ public class PlayerGameManager : MonoBehaviour
                     }
                     break;
             }
+            Debug.Log(coll.gameObject.name);
         }
     }
 }

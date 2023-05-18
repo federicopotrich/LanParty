@@ -65,8 +65,10 @@ public class PlayerGameManager : MonoBehaviour
                         s.floor--;
                     }
                     break;
+                case "porta":
+                    //coll.gameObject.transform.parent.gameObject.name;
+                    break;
             }
-            Debug.Log(coll.gameObject.name);
         }
     }
 }

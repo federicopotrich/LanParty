@@ -61,7 +61,7 @@ public class PlayerGameManager : MonoBehaviour
                 case "down":
                     if (s.floor >= 1)
                     {
-                        this.gameObject.transform.position = piani[s.floor-1].transform.Find("------Scale------").Find(coll.gameObject.transform.parent.name).Find("down").Find("SpawnPoint").position;
+                        this.gameObject.transform.position = piani[s.floor-1].transform.Find("------Scale------").Find(coll.gameObject.transform.parent.name).Find("up").Find("SpawnPoint").position;
                         s.floor--;
                     }
                     break;

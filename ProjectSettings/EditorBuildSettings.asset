@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MiniGame_Musica.unity
     guid: ed5b17701f4139a4c86c8f5c2c112fa5
+  - enabled: 1
+    path: Assets/Scenes/MateScene.unity
+    guid: 3d79e8b7e2f5f4b43818199f6b862979
   m_configObjects: {}

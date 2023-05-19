@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
-
+using UnityEngine.SceneManagement;
 public class PlayerGameManager : MonoBehaviour
 {
     public GameObject [] arrPiani;
@@ -49,6 +49,7 @@ public class PlayerGameManager : MonoBehaviour
         public GameObject [] piani;
         public Stats s;
         void OnCollisionEnter2D(Collision2D coll){
+            Debug.Log(coll.gameObject.transform.parent.gameObject.name);
             switch (coll.gameObject.name)
             {
                 case "up":
@@ -65,8 +66,23 @@ public class PlayerGameManager : MonoBehaviour
                         s.floor--;
                     }
                     break;
-                case "porta":
-                    //coll.gameObject.transform.parent.gameObject.name;
+                case "Porta":
+                    switch (coll.gameObject.transform.parent.gameObject.name)
+                    {
+                        case "Italiano":
+                            break;
+                        case "Storia":
+                            break;
+                        case "Musica":
+                            break;
+                        case "Matematica":
+                            SceneManager.LoadScene("MateScene", LoadSceneMode.Additive);
+                            break;
+                        case "Inglese":
+                            break;
+                        default:
+                            break;
+                    }
                     break;
             }
         }

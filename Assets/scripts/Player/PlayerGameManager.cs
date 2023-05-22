@@ -14,7 +14,7 @@ public class PlayerGameManager : MonoBehaviour
     {
         arrPiani = GameObject.FindGameObjectsWithTag("Piani");
 
-        namePlayer = GameObject.Find("dataConnectedPlayers").GetComponent<c>().players[NetworkManager.Singleton.LocalClientId]._name;
+        namePlayer = this.gameObject.name;
         this.gameObject.AddComponent<PlayerInventory>();
 
         myStats = this.gameObject.AddComponent<Stats>();
@@ -49,7 +49,6 @@ public class PlayerGameManager : MonoBehaviour
         public GameObject [] piani;
         public Stats s;
         void OnCollisionEnter2D(Collision2D coll){
-            Debug.Log(coll.gameObject.transform.parent.gameObject.name);
             switch (coll.gameObject.name)
             {
                 case "up":
@@ -67,22 +66,29 @@ public class PlayerGameManager : MonoBehaviour
                     }
                     break;
                 case "Porta":
+                    this.gameObject.tag = coll.gameObject.transform.parent.gameObject.name;
+                    DontDestroyOnLoad(this.gameObject);
                     switch (coll.gameObject.transform.parent.gameObject.name)
                     {
                         case "Italiano":
+                            SceneManager.LoadScene("ItalianoScene", LoadSceneMode.Additive);
                             break;
                         case "Storia":
+                            SceneManager.LoadScene("StoriaScene", LoadSceneMode.Additive);
                             break;
                         case "Musica":
+                            SceneManager.LoadScene("MiniGame_Musica", LoadSceneMode.Additive);
                             break;
                         case "Matematica":
                             SceneManager.LoadScene("MateScene", LoadSceneMode.Additive);
                             break;
                         case "Inglese":
+                            SceneManager.LoadScene("IngScene", LoadSceneMode.Additive);
                             break;
                         default:
                             break;
                     }
+                    this.gameObject.GetComponent<PlayerControllerNet>().speed = 0;
                     break;
             }
         }
@@ -112,4 +118,11 @@ class PlayerInventory : MonoBehaviour
         public string _name;
         public string _type; 
     }
+}
+
+public class PlayerDataMinigame
+{
+    public string playerName;
+    public string aula;
+    public int coins;
 }

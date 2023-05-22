@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class MatematicaGameManager : MonoBehaviour
 {
@@ -17,12 +18,18 @@ public class MatematicaGameManager : MonoBehaviour
     public bool substraction = false;
 
     private TextMeshProUGUI textTarget;  
-    private TextMeshProUGUI textCurrent;     
+    private TextMeshProUGUI textCurrent;
 
     public Sprite [] numbers;
     // Start is called before the first frame update
+
+    public float startTimer, timerMax = 120;
+
     void Start()
     {
+        timerMax = 120;
+        startTimer = Time.time;
+
         textTarget = GameObject.Find("Target").GetComponent<TextMeshProUGUI>();
         textCurrent = GameObject.Find("Current").GetComponent<TextMeshProUGUI>();
         int [,] matrix = nextBigTable(); 
@@ -71,7 +78,10 @@ public class MatematicaGameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        float elapsedTime = Time.time - startTimer;
+        if(elapsedTime >= timerMax){
+            SceneManager.UnloadSceneAsync("MateScene");
+        }
     }
 
     public void eventMouseCellListener(GameObject cella){

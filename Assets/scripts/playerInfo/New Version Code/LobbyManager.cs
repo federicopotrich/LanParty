@@ -26,7 +26,7 @@ public class LobbyManager : NetworkBehaviour
             {
                 string playerName = inputField.text;
                 string playerTeam = dropDownField.options[dropDownField.value].text;
-
+                Debug.Log("ciaoNome");
                 SetPlayerReadyServerRpc(playerName, playerTeam);
             }
         }
@@ -57,6 +57,7 @@ public class LobbyManager : NetworkBehaviour
         }
         if (allClientReady)
         {
+            Debug.Log("ciao");
             GameObject g = Instantiate(new GameObject());
 
             g.AddComponent<c>();
@@ -78,9 +79,4 @@ public class UtenteReady
 public class c : MonoBehaviour
 {
     public Dictionary<ulong, UtenteReady> players;
-
-    void Start(){
-        Debug.Log(players.ToString());
-    }
-
 }

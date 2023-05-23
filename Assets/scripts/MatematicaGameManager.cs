@@ -82,6 +82,7 @@ public class MatematicaGameManager : MonoBehaviour
         float elapsedTime = Time.time - startTimer;
         if(elapsedTime >= timerMax){
             SceneManager.UnloadSceneAsync("MateScene");
+            Destroy(this.transform.parent.gameObject);
         }
     }
 

@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.SceneManagement;
-public class PlayerGameManager : MonoBehaviour
+using System;
+
+public class PlayerGameManager : NetworkBehaviour
 {
-    public GameObject [] arrPiani;
+    public GameObject[] arrPiani;
     public Stats myStats;
     // Start is called before the first frame update
     public string namePlayer;
@@ -29,44 +31,48 @@ public class PlayerGameManager : MonoBehaviour
     }
     void Update()
     {
-        if(Input.GetKeyUp(KeyCode.P)){
+        if (Input.GetKeyUp(KeyCode.P))
+        {
             this.gameObject.transform.Find("CanvasInventory").gameObject.SetActive(true);
         }
 
-        if(this.gameObject.transform.Find("CanvasInventory").gameObject.activeSelf){
+        if (this.gameObject.transform.Find("CanvasInventory").gameObject.activeSelf)
+        {
             Time.timeScale = 0;
-        }else{
+        }
+        else
+        {
             Time.timeScale = 1;
         }
     }
-    
+
     public class Stats : MonoBehaviour
     {
         public int MaxHP, CurrentHP, coins, floor;
     }
     public class Interactions : MonoBehaviour
     {
-        public GameObject [] piani;
+        public GameObject[] piani;
         public Stats s;
-        void OnCollisionEnter2D(Collision2D coll){
+        void OnCollisionEnter2D(Collision2D coll)
+        {
             switch (coll.gameObject.name)
             {
                 case "up":
                     if (s.floor <= 2)
                     {
-                        this.gameObject.transform.position = piani[s.floor+1].transform.Find("------Scale------").Find(coll.gameObject.transform.parent.name).Find("down").Find("SpawnPoint").position;
+                        this.gameObject.transform.position = piani[s.floor + 1].transform.Find("------Scale------").Find(coll.gameObject.transform.parent.name).Find("down").Find("SpawnPoint").position;
                         s.floor++;
                     }
                     break;
                 case "down":
                     if (s.floor >= 1)
                     {
-                        this.gameObject.transform.position = piani[s.floor-1].transform.Find("------Scale------").Find(coll.gameObject.transform.parent.name).Find("up").Find("SpawnPoint").position;
+                        this.gameObject.transform.position = piani[s.floor - 1].transform.Find("------Scale------").Find(coll.gameObject.transform.parent.name).Find("up").Find("SpawnPoint").position;
                         s.floor--;
                     }
                     break;
                 case "Porta":
-                    this.gameObject.tag = coll.gameObject.transform.parent.gameObject.name;
                     switch (coll.gameObject.transform.parent.gameObject.name)
                     {
                         case "Italiano":
@@ -80,7 +86,17 @@ public class PlayerGameManager : MonoBehaviour
                             break;
                         case "Matematica":
                             SceneManager.LoadScene("MateScene", LoadSceneMode.Additive);
-                            GameObject.Find("Points").transform.position = this.gameObject.transform.position;
+                            StartCoroutine(DoSomethingDelayed(() =>
+                            {
+                                GameObject.Find("Points").transform.position = this.gameObject.transform.position;
+                                GameObject.Find("Points").transform.localScale = new Vector3(0.035f, 0.035f, 0.035f);
+                            }, 1));
+                            StartCoroutine(DoSomethingDelayed(() =>
+                            {
+                                this.GetComponent<PlayerControllerNet>().speed = 5;
+                                transform.Find("MainCameraPlayer").gameObject.GetComponent<Camera>().enabled = true;
+                            }, 120));
+
                             break;
                         case "Inglese":
                             SceneManager.LoadScene("IngScene", LoadSceneMode.Additive);
@@ -92,11 +108,17 @@ public class PlayerGameManager : MonoBehaviour
                     break;
             }
         }
+        private IEnumerator DoSomethingDelayed(Action action, float t)
+        {
+
+            yield return new WaitForSeconds(t);
+            action.Invoke();
+        }
     }
 }
 class PlayerInventory : MonoBehaviour
 {
-    public Item [,] inventoryItems = new Item[3,4];
+    public Item[,] inventoryItems = new Item[3, 4];
     // Start is called before the first frame update
     void Start()
     {
@@ -104,7 +126,7 @@ class PlayerInventory : MonoBehaviour
         {
             for (int j = 0; j < 4; j++)
             {
-                inventoryItems[i,j] = null;
+                inventoryItems[i, j] = null;
             }
         }
     }
@@ -112,11 +134,12 @@ class PlayerInventory : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
-    public class Item{
+    public class Item
+    {
         public string _name;
-        public string _type; 
+        public string _type;
     }
 }
 

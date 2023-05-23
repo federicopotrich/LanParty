@@ -81,6 +81,7 @@ public class PlayerGameManager : MonoBehaviour
                             break;
                         case "Matematica":
                             SceneManager.LoadScene("MateScene", LoadSceneMode.Additive);
+                            GameObject.Find("Points").transform.position = this.gameObject.transform.position;
                             break;
                         case "Inglese":
                             SceneManager.LoadScene("IngScene", LoadSceneMode.Additive);

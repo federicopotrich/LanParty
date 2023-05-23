@@ -35,6 +35,7 @@ public class MatematicaGameManager : MonoBehaviour
         int [,] matrix = nextBigTable(); 
         textTarget.text = "target: "+target;
         textCurrent.text = "total points "+ points;
+        DontDestroyOnLoad(GameObject.Find("Points"));
     }
 
     private int[,] nextBigTable() {

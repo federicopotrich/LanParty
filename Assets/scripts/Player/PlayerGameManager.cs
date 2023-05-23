@@ -67,7 +67,6 @@ public class PlayerGameManager : MonoBehaviour
                     break;
                 case "Porta":
                     this.gameObject.tag = coll.gameObject.transform.parent.gameObject.name;
-                    DontDestroyOnLoad(this.gameObject);
                     switch (coll.gameObject.transform.parent.gameObject.name)
                     {
                         case "Italiano":

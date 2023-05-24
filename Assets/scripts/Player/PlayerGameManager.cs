@@ -7,6 +7,7 @@ using System;
 
 public class PlayerGameManager : NetworkBehaviour
 {
+    public GameObject cameraPlayer;
     public GameObject[] arrPiani;
     public Stats myStats;
     // Start is called before the first frame update
@@ -28,6 +29,7 @@ public class PlayerGameManager : NetworkBehaviour
 
         interactionPlayer.s = myStats;
         interactionPlayer.piani = arrPiani;
+        interactionPlayer._cameraPlayer = cameraPlayer;
     }
     void Update()
     {
@@ -49,9 +51,11 @@ public class PlayerGameManager : NetworkBehaviour
     public class Stats : MonoBehaviour
     {
         public int MaxHP, CurrentHP, coins, floor;
+        public float scoreTeam; /*dato per score finale per il boss*/
     }
     public class Interactions : MonoBehaviour
     {
+        public GameObject _cameraPlayer;
         public GameObject[] piani;
         public Stats s;
         void OnCollisionEnter2D(Collision2D coll)
@@ -94,8 +98,10 @@ public class PlayerGameManager : NetworkBehaviour
                             StartCoroutine(DoSomethingDelayed(() =>
                             {
                                 this.GetComponent<PlayerControllerNet>().speed = 5;
-                                transform.Find("MainCameraPlayer").gameObject.GetComponent<Camera>().enabled = true;
-                            }, 120));
+                                _cameraPlayer.GetComponent<Camera>().enabled = true;
+                                _cameraPlayer.SetActive(false);
+                                _cameraPlayer.SetActive(true);
+                            }, 10));
 
                             break;
                         case "Inglese":

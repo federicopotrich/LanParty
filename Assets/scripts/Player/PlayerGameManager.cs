@@ -84,6 +84,22 @@ public class PlayerGameManager : NetworkBehaviour
                             break;
                         case "Storia":
                             SceneManager.LoadScene("StoriaScene", LoadSceneMode.Additive);
+                            for (int i = 0; i < 3; i++)
+                            {
+                                GameObject dataStoria = new GameObject("DataStoria"+i);
+                                dataStoria.tag = "DataStoria";
+                                dataStoria.transform.SetParent(this.gameObject.transform);
+                            }
+                            StartCoroutine(DoSomethingDelayed(() =>
+                            {
+                                GameObject.Find("CanvasStoria").transform.position = this.gameObject.transform.position;
+                                GameObject.Find("CanvasStoria").transform.localScale = new Vector3(0.035f, 0.035f, 0.035f);
+                                GameObject.Find("CanvasStoria").GetComponent<Canvas>().worldCamera = _cameraPlayer.GetComponent<Camera>();
+                            }, 1));
+                            StartCoroutine(DoSomethingDelayed(() =>
+                            {
+                                this.GetComponent<PlayerControllerNet>().speed = 5;
+                            }, 30));
                             break;
                         case "Musica":
                             SceneManager.LoadScene("MiniGame_Musica", LoadSceneMode.Additive);
@@ -94,14 +110,12 @@ public class PlayerGameManager : NetworkBehaviour
                             {
                                 GameObject.Find("Points").transform.position = this.gameObject.transform.position;
                                 GameObject.Find("Points").transform.localScale = new Vector3(0.035f, 0.035f, 0.035f);
+                                GameObject.Find("Points").GetComponent<Canvas>().worldCamera = _cameraPlayer.GetComponent<Camera>();
                             }, 1));
                             StartCoroutine(DoSomethingDelayed(() =>
                             {
                                 this.GetComponent<PlayerControllerNet>().speed = 5;
-                                _cameraPlayer.GetComponent<Camera>().enabled = true;
-                                _cameraPlayer.SetActive(false);
-                                _cameraPlayer.SetActive(true);
-                            }, 10));
+                            }, 30));
 
                             break;
                         case "Inglese":
@@ -111,6 +125,9 @@ public class PlayerGameManager : NetworkBehaviour
                             break;
                     }
                     this.gameObject.GetComponent<PlayerControllerNet>().speed = 0;
+                    _cameraPlayer.GetComponent<Camera>().enabled = true;
+                    _cameraPlayer.SetActive(false);
+                    _cameraPlayer.SetActive(true);
                     break;
             }
         }

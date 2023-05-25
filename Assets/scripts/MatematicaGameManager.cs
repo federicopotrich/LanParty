@@ -23,11 +23,11 @@ public class MatematicaGameManager : MonoBehaviour
     public Sprite [] numbers;
     // Start is called before the first frame update
 
-    public float startTimer, timerMax = 120;
+    public float startTimer, timerMax = 30;
 
     void Start()
     {
-        timerMax = 120;
+        timerMax = 30;
         startTimer = Time.time;
 
         textTarget = GameObject.Find("Target").GetComponent<TextMeshProUGUI>();
@@ -35,7 +35,7 @@ public class MatematicaGameManager : MonoBehaviour
         int [,] matrix = nextBigTable(); 
         textTarget.text = "target: "+target;
         textCurrent.text = "total points "+ points;
-        DontDestroyOnLoad(GameObject.Find("Points"));
+        //DontDestroyOnLoad(GameObject.Find("Points"));
     }
 
     private int[,] nextBigTable() {
@@ -82,7 +82,6 @@ public class MatematicaGameManager : MonoBehaviour
         float elapsedTime = Time.time - startTimer;
         if(elapsedTime >= timerMax){
             SceneManager.UnloadSceneAsync("MateScene");
-            Destroy(this.transform.parent.gameObject);
         }
     }
 

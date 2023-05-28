@@ -1,0 +1,480 @@
+{
+    "easy": [
+        {
+            "code": "ao",
+            "names": ["Valle d'Aosta", "Val d'Aosta"]
+        },
+        {
+            "code": "ab",
+            "names": ["Abruzzo"]
+        },
+        {
+            "code": "pu",
+            "names": ["Puglia"]
+        },
+        {
+            "code": "ba",
+            "names": ["Basilicata"]
+        },
+        {
+            "code": "cb",
+            "names": ["Calabria"]
+        },
+        {
+            "code": "ca",
+            "names": ["Campania"]
+        },
+        {
+            "code": "er",
+            "names": ["Emilia-Romagna", "Emilia Romagna", "Emilia - Romagna"]
+        },
+        {
+            "code": "fv",
+            "names": ["Friuli-Venezia Giulia", "Friuli Venezia Giulia", "Friuli - Venezia Giulia"]
+        },
+        {
+            "code": "la",
+            "names": ["Lazio"]
+        },
+        {
+            "code": "li",
+            "names": ["Liguria"]
+        },
+        {
+            "code": "lo",
+            "names": ["Lombardia"]
+        },
+        {
+            "code": "ma",
+            "names": ["Marche"]
+        },
+        {
+            "code": "mo",
+            "names": ["Molise"]
+        },
+        {
+            "code": "pi",
+            "names": ["Piemonte"]
+        },
+        {
+            "code": "sa",
+            "names": ["Sardegna"]
+        },
+        {
+            "code": "si",
+            "names": ["Sicilia"]
+        },
+        {
+            "code": "ta",
+            "names": ["Trentino-Alto Adige", "Trentino Alto Adige", "Trentino - Alto Adige", "Trentino"]
+        },
+        {
+            "code": "to",
+            "names": ["Toscana"]
+        },
+        {
+            "code": "um",
+            "names": ["Umbria"]
+        },
+        {
+            "code": "ve",
+            "names": ["Veneto"]
+        }
+    ],
+    "medium": [
+        {
+            "code": "ao",
+            "capital": "Aosta",
+            "options": [
+                "Ivrea",
+                "Courmayeur",
+                "Morgex",
+                "Cogne",
+                "Châtillon"
+            ]
+        },
+        {
+            "code": "ab",
+            "capital": "L'Aquila",
+            "options": [
+                "Teramo",
+                "Pescara",
+                "Giulianova",
+                "Sulmona",
+                "Chieti"
+            ]
+        },
+        {
+            "code": "pu",
+            "capital": "Bari",
+            "options": [
+                "Foggia",
+                "Taranto",
+                "Brindisi",
+                "Lecce",
+                "Barletta"
+            ]
+        },
+        {
+            "code": "ba",
+            "capital": "Potenza",
+            "options": [
+                "Matera",
+                "Melfi",
+                "Lagonegro",
+                "Metaponto",
+                "Maratea"
+            ]
+        },
+        {
+            "code": "cb",
+            "capital": "Catanzaro",
+            "options": [
+                "Cosenza",
+                "Crotone",
+                "Reggio Calabria",
+                "Vibo Valentia",
+                "Lamezia Terme"
+            ]
+        },
+        {
+            "code": "ca",
+            "capital": "Napoli",
+            "options": [
+                "Caserta",
+                "Benevento",
+                "Avellino",
+                "Salerno",
+                "Sapri"
+            ]
+        },
+        {
+            "code": "er",
+            "capital": "Bologna",
+            "options": [
+                "Ferrara",
+                "Ravenna",
+                "Rimini",
+                "Reggio Emilia",
+                "Parma"
+            ]
+        },
+        {
+            "code": "fv",
+            "capital": "Trieste",
+            "options": [
+                "Udine",
+                "Pordenone",
+                "Gorizia",
+                "Monfalcone",
+                "Grado"
+            ]
+        },
+        {
+            "code": "la",
+            "capital": "Roma",
+            "options": [
+                "Viterbo",
+                "Rieti",
+                "Latina",
+                "Frosinone",
+                "Civitavecchia"
+            ]
+        },
+        {
+            "code": "li",
+            "capital": "Genova",
+            "options": [
+                "La Spezia",
+                "Savona",
+                "Imperia",
+                "Sanremo",
+                "Ventimiglia"
+            ]
+        },
+        {
+            "code": "lo",
+            "capital": "Milano",
+            "options": [
+                "Bergamo",
+                "Brescia",
+                "Como",
+                "Cremona",
+                "Mantova"
+            ]
+        },
+        {
+            "code": "ma",
+            "capital": "Ancona",
+            "options": [
+                "Pesaro",
+                "Macerata",
+                "Ascoli Piceno",
+                "Jesi",
+                "Urbino"
+            ]
+        },
+        {
+            "code": "mo",
+            "capital": "Campobasso",
+            "options": [
+                "Isernia",
+                "Termoli",
+                "Larino",
+                "Venafro",
+                "Bojano"
+            ]
+        },
+        {
+            "code": "pi",
+            "capital": "Torino",
+            "options": [
+                "Novara",
+                "Vercelli",
+                "Cuneo",
+                "Asti",
+                "Alessandria"
+            ]
+        },
+        {
+            "code": "sa",
+            "capital": "Cagliari",
+            "options": [
+                "Sassari",
+                "Nuoro",
+                "Oristano",
+                "Olbia",
+                "Alghero"
+            ]
+        },
+        {
+            "code": "si",
+            "capital": "Palermo",
+            "options": [
+                "Catania",
+                "Messina",
+                "Agrigento",
+                "Trapani",
+                "Enna"
+            ]
+        },
+        {
+            "code": "ta",
+            "capital": "Trento",
+            "options": [
+                "Bolzano",
+                "Merano",
+                "Rovereto",
+                "Bressanone",
+                "Brunico"
+            ]
+        },
+        {
+            "code": "to",
+            "capital": "Firenze",
+            "options": [
+                "Prato",
+                "Pistoia",
+                "Arezzo",
+                "Siena",
+                "Grosseto"
+            ]
+        },
+        {
+            "code": "um",
+            "capital": "Perugia",
+            "options": [
+                "Terni",
+                "Foligno",
+                "Spoleto",
+                "Orvieto",
+                "Gubbio"
+            ]
+        },
+        {
+            "code": "ve",
+            "capital": "Venezia",
+            "options": [
+                "Padova",
+                "Verona",
+                "Vicenza",
+                "Belluno",
+                "Treviso"
+            ]
+        }
+    ],
+    "hard": [
+        {
+            "code": "us",
+            "name": "Stati Uniti d'America"
+        },
+        {
+            "code": "gb",
+            "name": "Regno Unito"
+        },
+        {
+            "code": "fr",
+            "name": "Francia"
+        },
+        {
+            "code": "de",
+            "name": "Germania"
+        },
+        {
+            "code": "es",
+            "name": "Spagna"
+        },
+        {
+            "code": "cn",
+            "name": "Cina"
+        },
+        {
+            "code": "jp",
+            "name": "Giappone"
+        },
+        {
+            "code": "br",
+            "name": "Brasile"
+        },
+        {
+            "code": "ru",
+            "name": "Russia"
+        },
+        {
+            "code": "it",
+            "name": "Italia"
+        },
+        {
+            "code": "ca",
+            "name": "Canada"
+        },
+        {
+            "code": "au",
+            "name": "Australia"
+        },
+        {
+            "code": "in",
+            "name": "India"
+        },
+        {
+            "code": "ar",
+            "name": "Argentina"
+        },
+        {
+            "code": "mx",
+            "name": "Messico"
+        },
+        {
+            "code": "tr",
+            "name": "Turchia"
+        },
+        {
+            "code": "za",
+            "name": "Sudafrica"
+        },
+        {
+            "code": "nl",
+            "name": "Paesi Bassi"
+        },
+        {
+            "code": "ch",
+            "name": "Svizzera"
+        },
+        {
+            "code": "be",
+            "name": "Belgio"
+        },
+        {
+            "code": "at",
+            "name": "Austria"
+        },
+        {
+            "code": "dk",
+            "name": "Danimarca"
+        },
+        {
+            "code": "se",
+            "name": "Svezia"
+        },
+        {
+            "code": "no",
+            "name": "Norvegia"
+        },
+        {
+            "code": "fi",
+            "name": "Finlandia"
+        },
+        {
+            "code": "gr",
+            "name": "Grecia"
+        },
+        {
+            "code": "pt",
+            "name": "Portogallo"
+        },
+        {
+            "code": "ie",
+            "name": "Irlanda"
+        },
+        {
+            "code": "ro",
+            "name": "Romania"
+        },
+        {
+            "code": "ua",
+            "name": "Ucraina"
+        },
+        {
+            "code": "hr",
+            "name": "Croazia"
+        },
+        {
+            "code": "ba",
+            "name": "Bosnia ed Erzegovina"
+        },
+        {
+            "code": "rs",
+            "name": "Serbia"
+        },
+        {
+            "code": "is",
+            "name": "Islanda"
+        }
+    ],
+    "hard-bucket": [
+        "Stati Uniti d'America",
+        "Regno Unito",
+        "Francia",
+        "Germania",
+        "Spagna",
+        "Cina",
+        "Giappone",
+        "Brasile",
+        "Russia",
+        "Italia",
+        "Canada",
+        "Australia",
+        "India",
+        "Argentina",
+        "Messico",
+        "Turchia",
+        "Sudafrica",
+        "Paesi Bassi",
+        "Svizzera",
+        "Belgio",
+        "Austria",
+        "Danimarca",
+        "Svezia",
+        "Norvegia",
+        "Finlandia",
+        "Grecia",
+        "Portogallo",
+        "Irlanda",
+        "Romania",
+        "Ucraina",
+        "Croazia",
+        "Bosnia ed Erzegovina",
+        "Serbia",
+        "Islanda"
+    ]
+}

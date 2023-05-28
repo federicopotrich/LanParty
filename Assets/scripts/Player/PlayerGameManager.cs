@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.Netcode;
 using UnityEngine.SceneManagement;
 using System;
+using Unity.Netcode;
 
 public class PlayerGameManager : NetworkBehaviour
 {
@@ -15,6 +15,7 @@ public class PlayerGameManager : NetworkBehaviour
     public string team;
     void Start()
     {
+        DontDestroyOnLoad(GameObject.Find("JsonManager"));
         arrPiani = GameObject.FindGameObjectsWithTag("Piani");
 
         namePlayer = this.gameObject.name;
@@ -83,23 +84,24 @@ public class PlayerGameManager : NetworkBehaviour
                             SceneManager.LoadScene("ItalianoScene", LoadSceneMode.Additive);
                             break;
                         case "Storia":
+
                             SceneManager.LoadScene("StoriaScene", LoadSceneMode.Additive);
-                            for (int i = 0; i < 3; i++)
-                            {
-                                GameObject dataStoria = new GameObject("DataStoria"+i);
-                                dataStoria.tag = "DataStoria";
-                                dataStoria.transform.SetParent(this.gameObject.transform);
-                            }
-                            StartCoroutine(DoSomethingDelayed(() =>
-                            {
-                                GameObject.Find("CanvasStoria").transform.position = this.gameObject.transform.position;
-                                GameObject.Find("CanvasStoria").transform.localScale = new Vector3(0.035f, 0.035f, 0.035f);
-                                GameObject.Find("CanvasStoria").GetComponent<Canvas>().worldCamera = _cameraPlayer.GetComponent<Camera>();
-                            }, 1));
-                            StartCoroutine(DoSomethingDelayed(() =>
-                            {
-                                this.GetComponent<PlayerControllerNet>().speed = 5;
-                            }, 30));
+                                this.GetComponent<PlayerControllerNet>().speed = 0;
+
+                                Debug.Log(_cameraPlayer);
+                                
+                                StartCoroutine(DoSomethingDelayed(() =>
+                                {
+                                    GameObject canvasStoria = GameObject.Find("CanvasStoria");
+                                    canvasStoria.transform.position = this.gameObject.transform.position;
+                                    canvasStoria.transform.localScale = new Vector3(0.04f, 0.04f, 0.04f);
+                                    canvasStoria.GetComponent<Canvas>().worldCamera = _cameraPlayer.GetComponent<Camera>();
+                                    StartCoroutine(DoSomethingDelayed(() =>
+                                    {
+                                        this.GetComponent<PlayerControllerNet>().speed = 5;
+                                    }, 30));
+                                }, 1));
+                            
                             break;
                         case "Musica":
                             SceneManager.LoadScene("MiniGame_Musica", LoadSceneMode.Additive);
@@ -111,11 +113,11 @@ public class PlayerGameManager : NetworkBehaviour
                                 GameObject.Find("Points").transform.position = this.gameObject.transform.position;
                                 GameObject.Find("Points").transform.localScale = new Vector3(0.035f, 0.035f, 0.035f);
                                 GameObject.Find("Points").GetComponent<Canvas>().worldCamera = _cameraPlayer.GetComponent<Camera>();
+                                StartCoroutine(DoSomethingDelayed(() =>
+                                {
+                                    this.GetComponent<PlayerControllerNet>().speed = 5;
+                                }, 120));
                             }, 1));
-                            StartCoroutine(DoSomethingDelayed(() =>
-                            {
-                                this.GetComponent<PlayerControllerNet>().speed = 5;
-                            }, 30));
 
                             break;
                         case "Inglese":
@@ -137,6 +139,7 @@ public class PlayerGameManager : NetworkBehaviour
             yield return new WaitForSeconds(t);
             action.Invoke();
         }
+        
     }
 }
 class PlayerInventory : MonoBehaviour

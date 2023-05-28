@@ -29,4 +29,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MateScene.unity
     guid: 3d79e8b7e2f5f4b43818199f6b862979
+  - enabled: 1
+    path: Assets/Scenes/GeoScene.unity
+    guid: 50b35bc3bfbe7884db78175fa955228d
   m_configObjects: {}

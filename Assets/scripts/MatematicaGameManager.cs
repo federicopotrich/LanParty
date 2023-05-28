@@ -23,11 +23,11 @@ public class MatematicaGameManager : MonoBehaviour
     public Sprite [] numbers;
     // Start is called before the first frame update
 
-    public float startTimer, timerMax = 30;
+    public float startTimer, timerMax = 120;
 
     void Start()
     {
-        timerMax = 30;
+        timerMax = 120;
         startTimer = Time.time;
 
         textTarget = GameObject.Find("Target").GetComponent<TextMeshProUGUI>();
@@ -77,7 +77,7 @@ public class MatematicaGameManager : MonoBehaviour
 
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         float elapsedTime = Time.time - startTimer;
         if(elapsedTime >= timerMax){

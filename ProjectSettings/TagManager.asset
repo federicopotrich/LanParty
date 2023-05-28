@@ -19,6 +19,7 @@ TagManager:
   - DataItaliano
   - Damage
   - PlayerAttack
+  - Piani
   layers:
   - Default
   - TransparentFX
@@ -26,12 +27,12 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Matematica
+  - Italiano
+  - Storia
+  - Geografia
+  - Inglese
+  - Musica
   - 
   - 
   - 

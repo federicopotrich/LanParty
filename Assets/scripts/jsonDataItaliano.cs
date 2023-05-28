@@ -44,18 +44,10 @@ public class jsonDataItaliano : MonoBehaviour
 
     void Start()
     {
-        // titleText = GameObject.Find("Title").GetComponent<TextMeshProUGUI>();
-        // questText = GameObject.Find("questText").GetComponent<TextMeshProUGUI>();
-        // btn1 = GameObject.Find("Button1").GetComponent<Button>();
-        // btn2 = GameObject.Find("Button2").GetComponent<Button>();
-        // btn3 = GameObject.Find("Button3").GetComponent<Button>();
-        // btn4 = GameObject.Find("Button4").GetComponent<Button>();
 
         jsonDataString = File.ReadAllText(Application.dataPath + "/json/italiano.json");
         d = JsonConvert.DeserializeObject<dataClass>(jsonDataString);
-        arrayData = d.data;        
-
-        //init();
+        arrayData = d.data;
 
     }
     void Update()

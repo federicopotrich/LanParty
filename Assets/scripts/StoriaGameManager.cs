@@ -10,9 +10,15 @@ public class StoriaGameManager : MonoBehaviour
     public int [] quesitiRisolti = {-1, -1, -1}; // -1 = quesito non svolto | 0 = quesito errato | 1 = quesito corretto
     // Start is called before the first frame update
     int index = 0;
+
+     public float startTimer, timerMax;
+
+
     bool b = true;
-    void Awake()
+    void Start()
     {
+        timerMax = 30;
+        startTimer = Time.time;
         List<int> l = GenerateRandom(3, 0, GameObject.Find("JsonStoria").GetComponent<jsonData>().arrayData.Length);
         for (int i = 0; i < 3; i++)
         {
@@ -35,49 +41,43 @@ public class StoriaGameManager : MonoBehaviour
         quesiti = quesitiNew;
         b = true;
         index = 0;
+        if(quesiti.Length > 0){
+
+            if(index <=2){
+                GameObject.Find("TestoAnno").GetComponent<TMPro.TextMeshProUGUI>().text = GameObject.Find("Slider").GetComponent<UnityEngine.UI.Slider>().value+" DC";
+                string replacedString = quesiti[index].GetComponent<storiaData>().immagine.Replace(".png", "");
+                replacedString = replacedString.Replace(".jpg", "");
+                GameObject.Find("ImageStoria").GetComponent<UnityEngine.UI.Image>().sprite = Resources.Load<Sprite>(replacedString);
+
+                Debug.Log(quesiti[index].GetComponent<storiaData>().anno);
+            }
+            if(index == 3 && b){
+                SceneManager.UnloadSceneAsync("StoriaScene");
+                b=false;
+            }
+
+        }
     }
     // Update is called once per frame
     void Update()
     {
-        if(quesiti != null){
-            if(quesiti.Length > 0){
-
-                if(index <=2){
-                    GameObject.Find("TestoAnno").GetComponent<TMPro.TextMeshProUGUI>().text = GameObject.Find("Slider").GetComponent<UnityEngine.UI.Slider>().value+" DC";
-                    string replacedString = quesiti[index].GetComponent<storiaData>().immagine.Replace(".png", "");
-                    replacedString = replacedString.Replace(".jpg", "");
-                    GameObject.Find("ImageStoria").GetComponent<UnityEngine.UI.Image>().sprite = Resources.Load<Sprite>(replacedString);
-
-                    Debug.Log(quesiti[index].GetComponent<storiaData>().anno);
-                }
-                if(index == 3 && b){
-                    SceneManager.UnloadSceneAsync("StoriaScene");
-                    b=false;
-                }
-
-            }
-
-            StartCoroutine(DoSomethingDelayed(() =>
-            {
-                SceneManager.UnloadSceneAsync("StoriaScene");
-            }, 30));
+        float elapsedTime = Time.time - startTimer;
+        if(elapsedTime >= timerMax){
+            SceneManager.UnloadSceneAsync("StoriaScene");
         }
-    }
-    private IEnumerator DoSomethingDelayed(Action action, float t)
-    {
-
-        yield return new WaitForSeconds(t);
-        action.Invoke();
     }
     public void checkAnswer(){
-        if(index <= 2){
-            if(quesiti[index].GetComponent<storiaData>().anno == GameObject.Find("Slider").GetComponent<UnityEngine.UI.Slider>().value){
-                quesitiRisolti[index] = 1;
-            }else{
-                quesitiRisolti[index] = 0;
-            }
-            index++;
+        if(index <=2){
+            string replacedString = quesiti[index].GetComponent<storiaData>().immagine.Replace(".png", "");
+            replacedString = replacedString.Replace(".jpg", "");
+            GameObject.Find("ImageStoria").GetComponent<UnityEngine.UI.Image>().sprite = Resources.Load<Sprite>(replacedString);
+
+            //Debug.Log(quesiti[index].GetComponent<storiaData>().anno);
         }
+        if(index == 3){
+            SceneManager.UnloadSceneAsync("StoriaScene");
+        }
+        index++;
     }
     public static List<int> GenerateRandom(int Lenght, int min, int max)
     {
@@ -99,5 +99,8 @@ public class StoriaGameManager : MonoBehaviour
             list[j] = Rand;
         }
         return list;
+    }
+    public void updateValue(){
+        GameObject.Find("TestoAnno").GetComponent<TMPro.TextMeshProUGUI>().text = GameObject.Find("Slider").GetComponent<UnityEngine.UI.Slider>().value+" DC";
     }
 }

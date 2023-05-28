@@ -9,16 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aea5abb002c491d44bf61c0ad4428185, type: 3}
-  m_Name: Sottiletta
+  m_Script: {fileID: 11500000, guid: 4046b406f92ffcb47b6172c2c74e8a38, type: 3}
+  m_Name: RiversOfBlood
   m_EditorClassIdentifier: 
-  nome: 
-  typeItem: 0
-  image_weapon_Armor: {fileID: 0}
+  nome: Rivers Of Blood
+  typeItem: 1
+  image_weapon_Armor: {fileID: 21300000, guid: d46eb762f9c92f342b27fc1347151ca5, type: 3}
   image_bullet: {fileID: 0}
   DistanceWeapon_MeleeWeapon: 0
   valoreArmatura: 0
-  damage: 0
-  lunghezza: 0
-  larghezza: 0
-  cost: 0
+  damage: 25
+  lunghezza: 0.85
+  larghezza: 0.85
+  cost: 375

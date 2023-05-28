@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4046b406f92ffcb47b6172c2c74e8a38, type: 3}
-  m_Name: Clown
+  m_Name: Bibbia
   m_EditorClassIdentifier: 
-  nome: Clown
+  nome: Bibbia
   typeItem: 0
-  image_weapon_Armor: {fileID: 21300000, guid: 1a9f3ae69a5aa084fbbf7e19cab9673f, type: 3}
-  image_bullet: {fileID: 0}
-  DistanceWeapon_MeleeWeapon: 0
-  valoreArmatura: 25
-  damage: 0
-  lunghezza: 0
-  larghezza: 0
+  image_weapon_Armor: {fileID: 21300000, guid: dddfc593eeda5844cbf3031dd2b5776a, type: 3}
+  image_bullet: {fileID: 21300000, guid: 5b45350861278cc4f84ebc30625a09a9, type: 3}
+  DistanceWeapon_MeleeWeapon: 1
+  valoreArmatura: 0
+  damage: 9
+  lunghezza: 0.5
+  larghezza: 0.5
   cost: 104

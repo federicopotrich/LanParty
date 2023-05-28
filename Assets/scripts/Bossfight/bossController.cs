@@ -71,5 +71,6 @@ public class bossController : MonoBehaviour
             Debug.Log("AAAAAAAAAAAAAAAAAAAA");
             hp = hp - coll.gameObject.GetComponent<SlashScript>().damage;
         }
+        PlayerDataMinigame.Instance.dmg +=  coll.gameObject.GetComponent<SlashScript>().damage;
     }
 }

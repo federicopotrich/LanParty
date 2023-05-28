@@ -12,7 +12,7 @@ public class PlayerGameManager : NetworkBehaviour
     public Stats myStats;
     // Start is called before the first frame update
     public string namePlayer;
-    public string team;
+    public string team = "";
     void Start()
     {
         DontDestroyOnLoad(GameObject.Find("JsonManager"));
@@ -51,7 +51,7 @@ public class PlayerGameManager : NetworkBehaviour
 
     public class Stats : MonoBehaviour
     {
-        public int MaxHP, CurrentHP, coins, floor;
+        public int MaxHP, CurrentHP, coins = 0, floor, DmgDealt = 0;
         public float scoreTeam; /*dato per score finale per il boss*/
     }
     public class Interactions : MonoBehaviour
@@ -59,8 +59,10 @@ public class PlayerGameManager : NetworkBehaviour
         public GameObject _cameraPlayer;
         public GameObject[] piani;
         public Stats s;
+
         void OnCollisionEnter2D(Collision2D coll)
         {
+            Debug.Log(coll.collider);
             switch (coll.gameObject.name)
             {
                 case "up":
@@ -82,31 +84,68 @@ public class PlayerGameManager : NetworkBehaviour
                     {
                         case "Italiano":
                             SceneManager.LoadScene("ItalianoScene", LoadSceneMode.Additive);
+                            StartCoroutine(DoSomethingDelayed(() =>
+                            {
+                                GameObject.Find("CanvasItaliano").transform.position = this.gameObject.transform.position;
+                                GameObject.Find("CanvasItaliano").transform.localScale = new Vector3(0.035f, 0.035f, 0.035f);
+                                GameObject.Find("CanvasItaliano").GetComponent<Canvas>().worldCamera = _cameraPlayer.GetComponent<Camera>();
+                                StartCoroutine(DoSomethingDelayed(() =>
+                                {
+                                    this.GetComponent<PlayerControllerNet>().speed = 5;
+                                }, 120));
+                            }, 1));
                             break;
                         case "Storia":
 
+                            // Carica la scena adattiva solo per il player che ha colliso con la porta
                             SceneManager.LoadScene("StoriaScene", LoadSceneMode.Additive);
-                                this.GetComponent<PlayerControllerNet>().speed = 0;
+                            GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+                            gameObject.GetComponent<PlayerControllerNet>().speed = 0;
+                            for (int i = 0; i < players.Length; i++)
+                            {
+                                Debug.Log(players[i]);
+                                if(players[i] != this.gameObject){
+                                    players[i].transform.Find("MainCameraPlayer").gameObject.SetActive(false);
+                                }   
+                            }
+                            StartCoroutine(DoSomethingDelayed(() =>
+                            {
+                                // Sposta il player nella scena adattiva alla sua posizione originale
+                                GameObject.Find("CanvasStoria").transform.position = this.gameObject.transform.position;
+                                GameObject.Find("CanvasStoria").transform.localScale = new Vector3(0.035f, 0.035f, 0.035f);
+                                GameObject.Find("CanvasStoria").GetComponent<Canvas>().worldCamera = _cameraPlayer.GetComponent<Camera>();
 
-                                Debug.Log(_cameraPlayer);
-                                
+                                // Ripristina il movimento del player dopo un ritardo di 1 secondo
                                 StartCoroutine(DoSomethingDelayed(() =>
                                 {
-                                    GameObject canvasStoria = GameObject.Find("CanvasStoria");
-                                    canvasStoria.transform.position = this.gameObject.transform.position;
-                                    canvasStoria.transform.localScale = new Vector3(0.04f, 0.04f, 0.04f);
-                                    canvasStoria.GetComponent<Canvas>().worldCamera = _cameraPlayer.GetComponent<Camera>();
-                                    StartCoroutine(DoSomethingDelayed(() =>
-                                    {
-                                        this.GetComponent<PlayerControllerNet>().speed = 5;
-                                    }, 30));
+                                    gameObject.GetComponent<PlayerControllerNet>().speed = 5;
                                 }, 1));
-                            
+
+                            }, 0));
+
                             break;
                         case "Musica":
                             SceneManager.LoadScene("MiniGame_Musica", LoadSceneMode.Additive);
+                            StartCoroutine(DoSomethingDelayed(() =>
+                            {
+                                GameObject.Find("MusicCanvas").transform.position = this.gameObject.transform.position;
+                                GameObject.Find("MusicCanvas").transform.localScale = new Vector3(0.035f, 0.035f, 0.035f);
+                                GameObject.Find("MusicCanvas").GetComponent<Canvas>().worldCamera = _cameraPlayer.GetComponent<Camera>();
+                                StartCoroutine(DoSomethingDelayed(() =>
+                                {
+                                    this.GetComponent<PlayerControllerNet>().speed = 5;
+                                }, 120));
+                            }, 1));
                             break;
                         case "Matematica":
+                        /*
+                            GameObject gTmp = new GameObject("GO_"+this.gameObject.name);
+
+                            gTmp.AddComponent<PlayerDataMinigame>();
+                            PlayerDataMinigame playerData = gTmp.GetComponent<PlayerDataMinigame>();
+                            playerData.playerName = this.gameObject.name;
+                            playerData.aula = coll.gameObject.transform.parent.gameObject.name;
+                        */
                             SceneManager.LoadScene("MateScene", LoadSceneMode.Additive);
                             StartCoroutine(DoSomethingDelayed(() =>
                             {
@@ -116,12 +155,23 @@ public class PlayerGameManager : NetworkBehaviour
                                 StartCoroutine(DoSomethingDelayed(() =>
                                 {
                                     this.GetComponent<PlayerControllerNet>().speed = 5;
+                                    //Destroy(gTmp);
                                 }, 120));
                             }, 1));
-
+                            
                             break;
                         case "Inglese":
                             SceneManager.LoadScene("IngScene", LoadSceneMode.Additive);
+                            StartCoroutine(DoSomethingDelayed(() =>
+                            {
+                                GameObject.Find("IngCanvas").transform.position = this.gameObject.transform.position;
+                                GameObject.Find("IngCanvas").transform.localScale = new Vector3(0.035f, 0.035f, 0.035f);
+                                GameObject.Find("IngCanvas").GetComponent<Canvas>().worldCamera = _cameraPlayer.GetComponent<Camera>();
+                                StartCoroutine(DoSomethingDelayed(() =>
+                                {
+                                    this.GetComponent<PlayerControllerNet>().speed = 5;
+                                }, 120));
+                            }, 1));
                             break;
                         default:
                             break;
@@ -132,6 +182,8 @@ public class PlayerGameManager : NetworkBehaviour
                     _cameraPlayer.SetActive(true);
                     break;
             }
+            s.coins += PlayerDataMinigame.Instance.coins;
+            Debug.Log(s.coins);
         }
         private IEnumerator DoSomethingDelayed(Action action, float t)
         {
@@ -139,7 +191,7 @@ public class PlayerGameManager : NetworkBehaviour
             yield return new WaitForSeconds(t);
             action.Invoke();
         }
-        
+
     }
 }
 class PlayerInventory : MonoBehaviour
@@ -169,9 +221,21 @@ class PlayerInventory : MonoBehaviour
     }
 }
 
-public class PlayerDataMinigame
+public class PlayerDataMinigame : MonoBehaviour
 {
+    public static PlayerDataMinigame Instance{get; private set;}
+
+    private void Awake(){
+        if(Instance == null){
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else{
+            Destroy(gameObject);
+        }
+    }
     public string playerName;
     public string aula;
-    public int coins;
+    public int coins = 0;
+    public float dmg = 0;
 }

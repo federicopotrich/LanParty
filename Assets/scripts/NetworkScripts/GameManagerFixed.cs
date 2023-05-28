@@ -37,8 +37,8 @@ public class GameManagerFixed : NetworkBehaviour
             {
                 // Spawn del player
                 Transform playerTransform = Instantiate(playerPrefab);
-                playerTransform.GetComponent<PlayerGameManager>().name = GameObject.Find("dataConnectedPlayers").GetComponent<c>().players[clientId]._name;
-                playerTransform.GetComponent<PlayerGameManager>().team = GameObject.Find("dataConnectedPlayers").GetComponent<c>().players[clientId]._team;
+                playerTransform.GetComponent<PlayerGameManager>().name = GameObject.Find("dataConnectedPlayers").GetComponent<c>().players[clientId].name;
+                playerTransform.GetComponent<PlayerGameManager>().team = GameObject.Find("dataConnectedPlayers").GetComponent<c>().players[clientId].team;
                 // Spawn del player object
                 playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
             }

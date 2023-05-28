@@ -5,28 +5,31 @@ using Newtonsoft.Json;
 using System.IO;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class jsonDataItaliano : MonoBehaviour
 {
-    private string jsonDataString;
+    public string jsonDataString;
     public quest[] arrayData;
 
 
-    private TextMeshProUGUI titleText;
-    private TextMeshProUGUI questText;
+    public TextMeshProUGUI titleText;
+    public TextMeshProUGUI questText;
 
-    private Button btn1;
-    private Button btn2;
-    private Button btn3;
-    private Button btn4;
+    public Button btn1;
+    public Button btn2;
+    public Button btn3;
+    public Button btn4;
 
-    private int points = 0;
+    public int points = 0;
 
     private int difficulty = 1;
 
     private dataClass d;
 
     private quest target;
+
+    public float startTimer, timerMax;
 
     [System.Serializable]
     public class dataClass
@@ -45,18 +48,37 @@ public class jsonDataItaliano : MonoBehaviour
     void Start()
     {
 
+        timerMax = 30;
+        startTimer = Time.time;
+
         jsonDataString = File.ReadAllText(Application.dataPath + "/json/italiano.json");
         d = JsonConvert.DeserializeObject<dataClass>(jsonDataString);
         arrayData = d.data;
-
+        btn1.onClick.AddListener(()=>{
+            bttn1();
+        });
+        btn2.onClick.AddListener(()=>{
+            bttn2();
+        });
+        btn3.onClick.AddListener(()=>{
+            bttn3();
+        });
+        btn4.onClick.AddListener(()=>{
+            bttn4();
+        });
+        init();
     }
     void Update()
     {
-
+        float elapsedTime = Time.time - startTimer;
+        if(elapsedTime >= timerMax){
+            SceneManager.UnloadSceneAsync("ItalianoScene");
+        }
     }
 
     public void init()
     {
+
         target = arrayData[Random.Range(0, d.data.Length)];
         int i = 0;
         for (int j = 0; j < d.opzioni.Length; j++)
@@ -84,8 +106,6 @@ public class jsonDataItaliano : MonoBehaviour
 
         }
 
-
-        Debug.Log("1*: "+numbers[0] + " 2*: " + numbers[1] + " 3*: " + numbers[2] + " 4*: " + numbers[3]);
         for (int j = 0; j < 50; j++)
         {
             int tmp1 = Random.Range(0, 4);

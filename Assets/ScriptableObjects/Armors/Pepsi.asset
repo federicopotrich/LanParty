@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47869a1fe9b06f34588adc8b8123bfbf, type: 3}
+  m_Script: {fileID: 11500000, guid: 4046b406f92ffcb47b6172c2c74e8a38, type: 3}
   m_Name: Pepsi
   m_EditorClassIdentifier: 
   nome: Pepsi
@@ -21,4 +21,4 @@ MonoBehaviour:
   damage: 0
   lunghezza: 0
   larghezza: 0
-  cost: 0
+  cost: 150

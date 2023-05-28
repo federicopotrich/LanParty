@@ -14,6 +14,8 @@ public class MatematicaGameManager : MonoBehaviour
     public GameObject [] cells;
     public int target;
     public int currentValue;
+
+    public int difficulty = 1;
     public int points = 0;
     public bool substraction = false;
 
@@ -23,11 +25,11 @@ public class MatematicaGameManager : MonoBehaviour
     public Sprite [] numbers;
     // Start is called before the first frame update
 
-    public float startTimer, timerMax = 120;
+    public float startTimer, timerMax;
 
     void Start()
     {
-        timerMax = 120;
+        timerMax = 30;
         startTimer = Time.time;
 
         textTarget = GameObject.Find("Target").GetComponent<TextMeshProUGUI>();
@@ -39,6 +41,7 @@ public class MatematicaGameManager : MonoBehaviour
     }
 
     private int[,] nextBigTable() {
+        substraction = false;
         //preparo la tabella con i valori ordinati
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
@@ -69,7 +72,13 @@ public class MatematicaGameManager : MonoBehaviour
             }
         }
         cells[12].GetComponent<UnityEngine.UI.Image>().sprite = numbers[bigTable[2, 2]+9];
-        target = Random.Range(0,25);
+        switch(difficulty)
+        {
+            case 1: target = Random.Range(0,25); break;
+            case 2: target = Random.Range(25,50); break;
+            case 3: target = Random.Range(50,100); break;
+        }
+        
         textTarget.text = "target: "+ target;
         currentValue = bigTable[currentPosI,currentPosJ];
         return bigTable;
@@ -81,6 +90,7 @@ public class MatematicaGameManager : MonoBehaviour
     {
         float elapsedTime = Time.time - startTimer;
         if(elapsedTime >= timerMax){
+            PlayerDataMinigame.Instance.coins +=  points * (10*(difficulty - ((difficulty-1)/2)));
             SceneManager.UnloadSceneAsync("MateScene");
         }
     }

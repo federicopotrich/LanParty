@@ -4,7 +4,6 @@ using TMPro;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
-using System.IO;
 
 public class LobbyManager : NetworkBehaviour
 {
@@ -27,25 +26,24 @@ public class LobbyManager : NetworkBehaviour
             {
                 string playerName = inputField.text;
                 string playerTeam = dropDownField.options[dropDownField.value].text;
-                playersReadyServerRpcDic[NetworkManager.Singleton.LocalClientId].name = playerName;
-                playersReadyServerRpcDic[NetworkManager.Singleton.LocalClientId].team = playerTeam;
-                SetPlayerReadyServerRpc();
+                SetPlayerReadyServerRpc(playerName, playerTeam);
             }
         }
         else
         {
-            SetPlayerReadyServerRpc();
+            SetPlayerReadyServerRpc("host", "null");
         }
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void SetPlayerReadyServerRpc(ServerRpcParams serverRpcParams = default)
+    private void SetPlayerReadyServerRpc(string namePlayer, string classPlayer, ServerRpcParams serverRpcParams = default)
     {
-        StreamWriter sw = new StreamWriter(Application.persistentDataPath + "/data.txt", true);
         UtenteReady u = new UtenteReady();
         u.ready = true;
+        u._name = namePlayer;
+        u._team = classPlayer;
 
-        playersReadyServerRpcDic[serverRpcParams.Receive.SenderClientId].ready = u.ready;
+        playersReadyServerRpcDic[serverRpcParams.Receive.SenderClientId] = u;
         bool allClientReady = true;
 
         foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
@@ -56,28 +54,24 @@ public class LobbyManager : NetworkBehaviour
                 break;
             }
         }
-
         if (allClientReady)
         {
-            foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
-            {
-                string playerName = playersReadyServerRpcDic[clientId].name;
-                // Salva il nome del giocatore o fai qualsiasi altra operazione necessaria
-                sw.WriteLine(clientId+";"+playerName+";"+playersReadyServerRpcDic[clientId].team);
-            }
+            GameObject g = Instantiate(new GameObject());
 
-            sw.Close();
+            g.AddComponent<c>();
+            g.GetComponent<c>().players = playersReadyServerRpcDic;
+            g.name = "dataConnectedPlayers";
+            DontDestroyOnLoad(g);
             NetworkManager.Singleton.SceneManager.LoadScene("GameSchoolScene", UnityEngine.SceneManagement.LoadSceneMode.Single);
         }
     }
-
 
 }
 public class UtenteReady
 {
     public bool ready;
-    public string name;
-    public string team;
+    public string _name;
+    public string _team;
 }
 
 public class c : MonoBehaviour

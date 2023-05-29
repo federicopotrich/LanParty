@@ -63,7 +63,7 @@ public class StoriaGameManager : MonoBehaviour
     {
         float elapsedTime = Time.time - startTimer;
         if(elapsedTime >= timerMax){
-            SceneManager.UnloadSceneAsync("StoriaScene");
+            this.gameObject.transform.parent.gameObject.SetActive(false);
         }
     }
     public void checkAnswer(){

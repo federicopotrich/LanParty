@@ -9,6 +9,7 @@ public class LobbyManager : NetworkBehaviour
 {
     public static LobbyManager instance { get; private set; }
     private Dictionary<ulong, UtenteReady> playersReadyServerRpcDic;
+    public Button btn;
     private void Awake()
     {
         instance = this;
@@ -24,15 +25,24 @@ public class LobbyManager : NetworkBehaviour
 
             if (inputField != null && inputField.text != "" && dropDownField != null)
             {
-                string playerName = inputField.text;
-                string playerTeam = dropDownField.options[dropDownField.value].text;
-                SetPlayerReadyServerRpc(playerName, playerTeam);
+                if(inputField.text.Length>10){
+                    string playerName = inputField.text.Substring(0, 10);
+                    string playerTeam = dropDownField.options[dropDownField.value].text;
+                    SetPlayerReadyServerRpc(playerName, playerTeam);
+                }else{
+
+                    string playerName = inputField.text;
+                    string playerTeam = dropDownField.options[dropDownField.value].text;
+                    SetPlayerReadyServerRpc(playerName, playerTeam);
+                }
             }
         }
         else
         {
             SetPlayerReadyServerRpc("host", "null");
         }
+        btn.transform.Find("Text (TMP)").GetComponent<TextMeshProUGUI>().text = btn.transform.Find("Text (TMP)").GetComponent<TextMeshProUGUI>().text + " √";
+        btn.enabled = false;
     }
 
     [ServerRpc(RequireOwnership = false)]

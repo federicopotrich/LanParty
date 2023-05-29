@@ -72,7 +72,7 @@ public class jsonDataItaliano : MonoBehaviour
     {
         float elapsedTime = Time.time - startTimer;
         if(elapsedTime >= timerMax){
-            SceneManager.UnloadSceneAsync("ItalianoScene");
+            this.transform.parent.gameObject.SetActive(false);
         }
     }
 

@@ -14,6 +14,18 @@ public class ScriptSlotShop : MonoBehaviour
         });
     }
     void buy(){
-
+        if(this.gameObject.GetComponent<PlayerGameManager>().myStats.coins >= item.cost){
+            for (int r = 0; r < 3; r++)
+            {
+                for (int c = 0; c < 4; c++)
+                {
+                    if(this.gameObject.GetComponent<PlayerInventory>().inventoryItems[r,c] != null){
+                        this.gameObject.GetComponent<PlayerInventory>().inventoryItems[r,c] = new PlayerInventory.Item();
+                        this.gameObject.GetComponent<PlayerInventory>().inventoryItems[r,c]._name = item.name;
+                        break;
+                    }
+                }
+            }
+        }
     }
 }

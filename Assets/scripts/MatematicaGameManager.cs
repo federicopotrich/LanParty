@@ -90,8 +90,8 @@ public class MatematicaGameManager : MonoBehaviour
     {
         float elapsedTime = Time.time - startTimer;
         if(elapsedTime >= timerMax){
-            PlayerDataMinigame.Instance.coins +=  points * (10*(difficulty - ((difficulty-1)/2)));
-            SceneManager.UnloadSceneAsync("MateScene");
+            //PlayerDataMinigame.Instance.coins +=  points * (10*(difficulty - ((difficulty-1)/2)));
+            this.gameObject.transform.parent.gameObject.SetActive(false);
         }
     }
 

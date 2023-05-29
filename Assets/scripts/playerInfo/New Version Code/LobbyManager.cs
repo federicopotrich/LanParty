@@ -4,11 +4,12 @@ using TMPro;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
-
+using Unity.Collections;
 public class LobbyManager : NetworkBehaviour
 {
     public static LobbyManager instance { get; private set; }
     private Dictionary<ulong, UtenteReady> playersReadyServerRpcDic;
+    //public NetworkVariable<FixedString128Bytes> networkPlayerName = new NetworkVariable<FixedString128Bytes>("Player", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public Button btn;
     private void Awake()
     {
@@ -48,6 +49,7 @@ public class LobbyManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void SetPlayerReadyServerRpc(string namePlayer, string classPlayer, ServerRpcParams serverRpcParams = default)
     {
+        //networkPlayerName.Value = namePlayer;
         UtenteReady u = new UtenteReady();
         u.ready = true;
         u._name = namePlayer;

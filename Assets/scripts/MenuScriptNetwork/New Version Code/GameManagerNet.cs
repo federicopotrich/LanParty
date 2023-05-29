@@ -17,7 +17,6 @@ public class GameManagerNet : NetworkBehaviour
     }
     public void startClient(){
         NetworkManager.Singleton.StartClient();
-        Debug.Log(NetworkManager.Singleton.ConnectedClients);
     }
     void Net_approval_connection(NetworkManager.ConnectionApprovalRequest req, NetworkManager.ConnectionApprovalResponse res){
         res.Approved = true;

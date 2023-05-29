@@ -1227,6 +1227,8 @@ MonoBehaviour:
   canvasInglese: {fileID: 0}
   canvasItaliano: {fileID: 6924622835496831236}
   canvasMusica: {fileID: 0}
+  btnShop: {fileID: 0}
+  shopManager: {fileID: 0}
 --- !u!95 &3623874091514563722
 Animator:
   serializedVersion: 4

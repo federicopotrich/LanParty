@@ -22,26 +22,45 @@ public class GameManagerFixed : NetworkBehaviour
         {
             if (NetworkManager.Singleton.IsServer)
             {
-                //GameObject.Find("Camera").SetActive(true);
                 NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneManager_OnLoadEventCompleted;
-            }
+            }   
             b = false;
         }
     }
     private void SceneManager_OnLoadEventCompleted(string sceneName, UnityEngine.SceneManagement.LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
+        int ctr = 0;
+        string[] visibleLayers;
         foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
         {
-
             if (NetworkManager.IsClient)
             {
                 // Spawn del player
                 Transform playerTransform = Instantiate(playerPrefab);
                 playerTransform.GetComponent<PlayerGameManager>().name = GameObject.Find("dataConnectedPlayers").GetComponent<c>().players[clientId]._name;
                 playerTransform.GetComponent<PlayerGameManager>().team = GameObject.Find("dataConnectedPlayers").GetComponent<c>().players[clientId]._team;
+
+                //playerTransform.gameObject.layer = 12+ctr;
+                
+                playerTransform.Find("CanvasStoria").gameObject.layer = 12+ctr;
+                playerTransform.Find("CanvasItaliano").gameObject.layer = 12+ctr;
+                playerTransform.Find("Points").gameObject.layer = 12+ctr;
+
+                visibleLayers = new string[] { "Default", "Player" + (1 + ctr) };
+
+                int cullingMask = 0; // Variabile per memorizzare la Culling Mask
+
+                // Itera attraverso gli array dei nomi dei layer visibili
+                for (int i = 0; i < visibleLayers.Length; i++)
+                {
+                    int layer = LayerMask.NameToLayer(visibleLayers[i]); // Ottieni l'indice del layer dal suo nome
+                    cullingMask |= 1 << layer; // Imposta il bit corrispondente all'indice del layer
+                }
+                playerTransform.Find("MainCameraPlayer").gameObject.GetComponent<Camera>().cullingMask = cullingMask;
                 // Spawn del player object
                 playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
             }
+            ctr++;
         }
     }
 }

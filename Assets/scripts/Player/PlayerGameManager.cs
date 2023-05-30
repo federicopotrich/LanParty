@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
 using Unity.Netcode;
-
 public class PlayerGameManager : NetworkBehaviour
 {
     public GameObject cameraPlayer;
@@ -16,7 +15,7 @@ public class PlayerGameManager : NetworkBehaviour
     public GameObject canvasMate, canvasStoria, canvasInglese, canvasItaliano, canvasMusica;
     private GameObject [] players;
     public GameObject btnShop;
-    public ShopManager shopManager;
+    public ShopManagerNet shopManager;
     void Start()
     {
 
@@ -31,11 +30,13 @@ public class PlayerGameManager : NetworkBehaviour
         myStats.MaxHP = myStats.CurrentHP = 150;
         myStats.coins = 0;
         myStats.floor = 0;
+        myStats.armorValue=0;
+        myStats.DmgDealt = 0;
 
         Interactions interactionPlayer = this.gameObject.AddComponent<Interactions>();
 
         interactionPlayer.shopManager = shopManager;
-        interactionPlayer.btnShop = btnShop;
+        //interactionPlayer.btnShop = btnShop;
         interactionPlayer.s = myStats;
         interactionPlayer.piani = arrPiani;
         interactionPlayer._cameraPlayer = cameraPlayer;
@@ -67,7 +68,7 @@ public class PlayerGameManager : NetworkBehaviour
     public class Stats : MonoBehaviour
     {
         //Dichiarazione delle variabili
-        public int MaxHP, CurrentHP, coins = 0, floor, DmgDealt = 0, armorValue = 1;
+        public int MaxHP, CurrentHP, coins = 0, floor, DmgDealt, armorValue;
 
         //Funzione che aggiorna gli hp in base al danno
         public void updateDamage(int dmg)
@@ -78,7 +79,7 @@ public class PlayerGameManager : NetworkBehaviour
         //Setta il danno fatto dal player
         public void setDamageDealth(int dmg)
         {
-            DmgDealt += dmg;
+            DmgDealt = dmg;
         }
 
         //Setta l'armor del player
@@ -90,11 +91,28 @@ public class PlayerGameManager : NetworkBehaviour
         }
 
         public float scoreTeam; /*dato per score finale per il boss*/
+        public void score(string status){
+            switch(status){
+                case "slash":
+                    scoreTeam += DmgDealt;
+                    break;
+                case "death":
+                    scoreTeam -= 30;
+                    break;
+                default:
+                    break;
+            }
+
+            if(scoreTeam < 0){
+                scoreTeam = 0;
+            }
+        }
+
     }
     public class Interactions : MonoBehaviour
     {
         public ShopManager shopManager;
-        public GameObject btnShop;
+        //public GameObject btnShop;
         public GameObject canvasMate, canvasStoria, canvasInglese, canvasItaliano, canvasMusica;
         public GameObject _cameraPlayer;
         public GameObject[] piani;
@@ -107,14 +125,14 @@ public class PlayerGameManager : NetworkBehaviour
                 case "up":
                     if (s.floor <= 2)
                     {
-                        this.gameObject.transform.position = piani[s.floor + 1].transform.Find("------Scale------").Find(coll.gameObject.transform.parent.name).Find("down").Find("SpawnPoint").localPosition;
+                        this.gameObject.transform.position = piani[s.floor + 1].transform.Find("------Scale------").Find(coll.gameObject.transform.parent.name).Find("down").Find("SpawnPoint").position;
                         s.floor++;
                     }
                     break;
                 case "down":
                     if (s.floor >= 1)
                     {
-                        this.gameObject.transform.position = piani[s.floor - 1].transform.Find("------Scale------").Find(coll.gameObject.transform.parent.name).Find("up").Find("SpawnPoint").localPosition;
+                        this.gameObject.transform.position = piani[s.floor - 1].transform.Find("------Scale------").Find(coll.gameObject.transform.parent.name).Find("up").Find("SpawnPoint").position;
                         s.floor--;
                     }
                     break;
@@ -135,7 +153,6 @@ public class PlayerGameManager : NetworkBehaviour
                                 StartCoroutine(DoSomethingDelayed(() =>
                                 {
                                     canvasItaliano.SetActive(false);
-                                    this.GetComponent<PlayerControllerNet>().speed = 5;
                                 }, 120));
                             }, 1));
                             break;
@@ -149,7 +166,6 @@ public class PlayerGameManager : NetworkBehaviour
                                 StartCoroutine(DoSomethingDelayed(() =>
                                 {
                                     canvasItaliano.SetActive(false);
-                                    this.GetComponent<PlayerControllerNet>().speed = 5;
                                 }, 120));
                             }, 1));
                             break;
@@ -161,12 +177,13 @@ public class PlayerGameManager : NetworkBehaviour
                             
                             StartCoroutine(DoSomethingDelayed(() =>
                             {
+                                //this.gameObject.transform.Find("MainCameraPlayer").gameObject.GetComponent<Camera>().cullingMask |= 1 << LayerMask.NameToLayer("Matematica");
                                 canvasMate.transform.localScale = new Vector3(0.0075f, 0.0075f, 0.0075f);
                                 canvasMate.GetComponent<Canvas>().worldCamera = _cameraPlayer.GetComponent<Camera>();
+                                
                                 StartCoroutine(DoSomethingDelayed(() =>
                                 {
                                     canvasMate.SetActive(false);
-                                    this.GetComponent<PlayerControllerNet>().speed = 5;
                                 }, 120));
                             }, 1));
                             break;
@@ -181,7 +198,7 @@ public class PlayerGameManager : NetworkBehaviour
                     break;
                     
                 case "Bancone":
-                        btnShop.SetActive(true);
+                        //btnShop.SetActive(true);
                     switch (coll.gameObject.transform.parent.gameObject.name)
                     {
                         case "Pozioni":
@@ -198,6 +215,8 @@ public class PlayerGameManager : NetworkBehaviour
                     }
                     break;
             }
+            this.GetComponent<PlayerControllerNet>().speed = 5;
+            this.gameObject.GetComponent<CapsuleCollider2D>().enabled = true;
             //s.coins += PlayerDataMinigame.Instance.coins;
             //Debug.Log(s.coins);
         }

@@ -35,7 +35,7 @@
         "**/*.MA":true,
         "**/*.obj":true,
         "**/*.OBJ":true,
-        "**/*.asset":false,
+        "**/*.asset":true,
         "**/*.cubemap":true,
         "**/*.flare":true,
         "**/*.mat":true,

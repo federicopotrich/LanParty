@@ -1,10 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShopManager : MonoBehaviour
-{
+public class ShopManagerNet : MonoBehaviour{
     public int idShopSeller = 0; // 0 gasperini - 1 Sanni♥ - 2 trentini
     public UnityEngine.UI.Image imageSeller;
     public Sprite gasperini, sannicolo, trentini;
@@ -27,10 +25,5 @@ public class ShopManager : MonoBehaviour
                 imageSeller.sprite = trentini;
                 break;
         }        
-    }
-
-    public static implicit operator ShopManager(ShopManagerNet v)
-    {
-        throw new NotImplementedException();
     }
 }

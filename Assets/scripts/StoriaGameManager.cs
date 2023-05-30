@@ -75,7 +75,7 @@ public class StoriaGameManager : MonoBehaviour
             //Debug.Log(quesiti[index].GetComponent<storiaData>().anno);
         }
         if(index == 3){
-            SceneManager.UnloadSceneAsync("StoriaScene");
+            this.gameObject.transform.parent.gameObject.SetActive(false);
         }
         index++;
     }

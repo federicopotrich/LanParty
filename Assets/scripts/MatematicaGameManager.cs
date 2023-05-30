@@ -27,7 +27,7 @@ public class MatematicaGameManager : MonoBehaviour
 
     public float startTimer, timerMax;
 
-    void Start()
+    void Awake()
     {
         timerMax = 30;
         startTimer = Time.time;

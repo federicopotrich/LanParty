@@ -33,6 +33,7 @@ public class GameManagerFixed : NetworkBehaviour
         string[] visibleLayers;
         foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
         {
+            visibleLayers = new string[2]{"Default", ""};
             if (NetworkManager.IsClient)
             {
                 // Spawn del player
@@ -45,8 +46,7 @@ public class GameManagerFixed : NetworkBehaviour
                 playerTransform.Find("CanvasStoria").gameObject.layer = 12+ctr;
                 playerTransform.Find("CanvasItaliano").gameObject.layer = 12+ctr;
                 playerTransform.Find("Points").gameObject.layer = 12+ctr;
-
-                visibleLayers = new string[] { "Default", "Player" + (1 + ctr) };
+                visibleLayers[1] = "Player"+(1+ctr);
 
                 int cullingMask = 0; // Variabile per memorizzare la Culling Mask
 
@@ -59,8 +59,11 @@ public class GameManagerFixed : NetworkBehaviour
                 playerTransform.Find("MainCameraPlayer").gameObject.GetComponent<Camera>().cullingMask = cullingMask;
                 // Spawn del player object
                 playerTransform.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
+                Debug.Log("DIO NEgro");
             }
             ctr++;
         }
     }
+
+    
 }

@@ -111,7 +111,7 @@ public class PlayerGameManager : NetworkBehaviour
     }
     public class Interactions : MonoBehaviour
     {
-        public ShopManager shopManager;
+        public ShopManagerNet shopManager;
         //public GameObject btnShop;
         public GameObject canvasMate, canvasStoria, canvasInglese, canvasItaliano, canvasMusica;
         public GameObject _cameraPlayer;

@@ -9,7 +9,7 @@ public class btnSetting : MonoBehaviour
     void Awake()
     {
         readyButton.onClick.AddListener(()=>{
-            LobbyManager.instance.SetPlayerReady();
+            LobbyManager.Instance.SetPlayerReady();
         });
     }
 }

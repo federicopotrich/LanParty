@@ -27,11 +27,11 @@ public class MatematicaGameManager : MonoBehaviour
 
     public float startTimer, timerMax;
 
-    void Awake()
+    void OnEnable()
     {
         timerMax = 30;
         startTimer = Time.time;
-
+        points = 0;
         textTarget = GameObject.Find("Target").GetComponent<TextMeshProUGUI>();
         textCurrent = GameObject.Find("Current").GetComponent<TextMeshProUGUI>();
         int [,] matrix = nextBigTable(); 
@@ -85,15 +85,6 @@ public class MatematicaGameManager : MonoBehaviour
     }
 
 
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        float elapsedTime = Time.time - startTimer;
-        if(elapsedTime >= timerMax){
-            //PlayerDataMinigame.Instance.coins +=  points * (10*(difficulty - ((difficulty-1)/2)));
-            this.gameObject.transform.parent.gameObject.SetActive(false);
-        }
-    }
 
     public void eventMouseCellListener(GameObject cella){
         int currentCol = cella.GetComponent<cell>().col;

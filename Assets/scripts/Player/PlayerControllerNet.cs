@@ -9,7 +9,7 @@ public class PlayerControllerNet : NetworkBehaviour
         transform.Find("MainCameraPlayer").gameObject.SetActive(IsOwner);
         base.OnNetworkSpawn(); // Not sure if this is needed though, but good to have it.
 
-        speed = 5;
+        speed = 10;
     }
 
     // Update is called once per frame
@@ -29,5 +29,12 @@ public class PlayerControllerNet : NetworkBehaviour
 
         this.gameObject.transform.Translate(new Vector3(x*Time.deltaTime*speed, y*Time.deltaTime*speed, 0));
 
+        this.GetComponent<Animator>().SetFloat("speed", Mathf.Abs(x));
+
+        if(x < 0){
+            this.GetComponent<SpriteRenderer>().flipX = true;
+        }else if(x > 0){
+            this.GetComponent<SpriteRenderer>().flipX = false;
+        }
     }
 }

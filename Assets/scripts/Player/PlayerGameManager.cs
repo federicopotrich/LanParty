@@ -8,9 +8,12 @@ using Unity.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.IO;
 
 public class PlayerGameManager : NetworkBehaviour
 {
+
+    public GameObject attackPrefabs;
     public NetworkVariable<FixedString128Bytes> networkPlayerName = new NetworkVariable<FixedString128Bytes>("Player: 0", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public NetworkVariable<FixedString128Bytes> networkTeam = new NetworkVariable<FixedString128Bytes>("Team: no", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public NetworkVariable<int> telecameraNumber = new NetworkVariable<int>(1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
@@ -29,15 +32,41 @@ public class PlayerGameManager : NetworkBehaviour
     public GameObject ViewArmature, ViewArmi;
     public TextMeshProUGUI timerText;
     public float duration = 10; // Durata del timer in secondi
-    private int timer = 0; // Tempo trascorso
+    private float timer = 0; // Tempo trascorso
     void Start()
     {
-        if (IsHost && SceneManager.GetActiveScene().name!="PalestraScene")
+
+        timer = 0;
+        if (SceneManager.GetActiveScene().name == "GameSchoolScene")
+        {
+            duration = 500f; //grandezza cutdown --> 
+        }
+        else
+        {
+            if (SceneManager.GetActiveScene().name == "PalestraScene")
+            {
+                duration = 10f;
+            }
+        }
+        if (SceneManager.GetActiveScene().name == "PalestraScene")
+        {
+            this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + (12.50f), this.transform.position.z);
+        }
+
+        if (IsHost && SceneManager.GetActiveScene().name != "PalestraScene")
         {
             StartCoroutine(DoSomethingDelayed(() =>
             {
-                
-                NetworkManager.Singleton.SceneManager.LoadScene("PalestraScene", UnityEngine.SceneManagement.LoadSceneMode.Single);
+
+                Application.Quit();
+            }, duration/*1500*/));
+        }
+        if (IsHost && SceneManager.GetActiveScene().name == "PalestraScene")
+        {
+            StartCoroutine(DoSomethingDelayed(() =>
+            {
+                WriteTotalDamageToFile();
+                NetworkManager.Singleton.Shutdown();
             }, duration/*1500*/));
         }
         visibleLayers = new string[2] { "Default", "" };
@@ -49,6 +78,7 @@ public class PlayerGameManager : NetworkBehaviour
         this.transform.Find("CanvasStoria").gameObject.layer = telecameraNumber.Value + 5;
         this.transform.Find("CanvasItaliano").gameObject.layer = telecameraNumber.Value + 5;
         this.transform.Find("Points").gameObject.layer = telecameraNumber.Value + 5;
+        timerText.gameObject.layer = telecameraNumber.Value + 5;
 
         visibleLayers[1] = "Player" + telecameraNumber.Value;
 
@@ -92,6 +122,11 @@ public class PlayerGameManager : NetworkBehaviour
 
         interactionPlayer.ViewArmature = ViewArmature;
         interactionPlayer.ViewArmi = ViewArmi;
+
+        this.gameObject.AddComponent<attacks>();
+        this.GetComponent<attacks>().namePlayer = this.gameObject.name;
+        this.GetComponent<attacks>().Attacks = attackPrefabs;
+        this.GetComponent<attacks>().cooldown = 2f;
     }
     private IEnumerator DoSomethingDelayed(Action action, float t)
     {
@@ -111,7 +146,7 @@ public class PlayerGameManager : NetworkBehaviour
 
         void OnCollisionEnter2D(Collision2D coll)
         {
-            Debug.Log(coll.gameObject.name);
+            //Debug.Log(coll.gameObject.name);
             switch (coll.gameObject.name)
             {
                 case "up":
@@ -129,10 +164,10 @@ public class PlayerGameManager : NetworkBehaviour
                     }
                     break;
                 case "Porta":
-                    Debug.Log(coll.gameObject.name);
+                    //Debug.Log(coll.gameObject.name);
                     this.gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
                     this.gameObject.GetComponent<PlayerControllerNet>().speed = 0;
-                    Debug.Log(this.gameObject.GetComponent<PlayerControllerNet>().speed);
+                    //Debug.Log(this.gameObject.GetComponent<PlayerControllerNet>().speed);
 
                     switch (coll.gameObject.transform.parent.gameObject.name)
                     {
@@ -175,7 +210,7 @@ public class PlayerGameManager : NetworkBehaviour
 
                                 StartCoroutine(DoSomethingDelayed(() =>
                                 {
-                                    Debug.Log("Points"+canvasMate.transform.Find("MatematicaManager").gameObject.GetComponent<MatematicaGameManager>().points);
+                                    //Debug.Log("Points"+canvasMate.transform.Find("MatematicaManager").gameObject.GetComponent<MatematicaGameManager>().points);
                                     this.gameObject.GetComponent<Stats>().coins += canvasMate.transform.Find("MatematicaManager").gameObject.GetComponent<MatematicaGameManager>().points;
                                     canvasMate.SetActive(false);
                                 }, 120));
@@ -195,8 +230,8 @@ public class PlayerGameManager : NetworkBehaviour
             {
 
                 this.transform.Find("CanvasShop").gameObject.SetActive(true);
-                this.transform.Find("CanvasShop").Find("background").Find("TextGold").gameObject.GetComponent<TMPro.TextMeshProUGUI>().text = ""+this.gameObject.GetComponent<Stats>().coins;
-                Debug.Log(coll.gameObject.transform.parent.parent.gameObject.name);
+                this.transform.Find("CanvasShop").Find("background").Find("TextGold").gameObject.GetComponent<TMPro.TextMeshProUGUI>().text = "" + this.gameObject.GetComponent<Stats>().coins;
+                //Debug.Log(coll.gameObject.transform.parent.parent.gameObject.name);
                 //btnShop.SetActive(true);
                 switch (coll.gameObject.transform.parent.parent.gameObject.name)
                 {
@@ -217,7 +252,7 @@ public class PlayerGameManager : NetworkBehaviour
                         break;
                 }
             }
-            this.GetComponent<PlayerControllerNet>().speed = 5;
+            this.GetComponent<PlayerControllerNet>().speed = 10;
             this.gameObject.GetComponent<CapsuleCollider2D>().enabled = true;
             //s.coins += PlayerDataMinigame.Instance.coins;
             //Debug.Log(s.coins);
@@ -239,26 +274,33 @@ public class PlayerGameManager : NetworkBehaviour
     }
     void Update()
     {
-
         if (Input.GetKeyUp(KeyCode.P))
         {
             this.gameObject.transform.Find("CanvasInventory").gameObject.SetActive(true);
         }
-        timer += (int)(Time.deltaTime%60);
-        Debug.Log(timer);
+        timer += Time.deltaTime;
+        //Debug.Log(timer);
         // Verifica se il timer ha raggiunto la durata desiderata
-        if (timer >= duration)
+        if (timer >= 0)
         {
-            // Il tempo è scaduto
-            Debug.Log("Timer scaduto!");
 
-            // Puoi eseguire altre azioni qui
-
-            // Resetta il timer
-            timer = 0;
+            timerText.text = "" + ((int)(duration - timer));
+        }
+        if (Input.GetMouseButtonUp(0))
+        {
+            GetComponent<attacks>().atk();
         }
     }
+    private void WriteTotalDamageToFile()
+    {
+        string fileName = this.gameObject.name + "_Damage.txt";
+        string filePath = Path.Combine(Application.dataPath, fileName);
 
+        using (StreamWriter writer = new StreamWriter(filePath, false))
+        {
+            writer.Write(myStats.scoreTeam);
+        }
+    }
     public class Stats : MonoBehaviour
     {
         //Dichiarazione delle variabili
@@ -335,6 +377,25 @@ class PlayerInventory : MonoBehaviour
     public class Item
     {
         public string _name;
+    }
+}
+
+public class attacks : MonoBehaviour
+{
+    public string namePlayer;
+    public float cooldown;
+    float lastAttackTime = 0f;
+    public GameObject Attacks;
+    public void atk()
+    {
+        if (Time.time - lastAttackTime >= cooldown)
+        {
+            Debug.Log("Attacking");
+            GameObject attackInstance = Instantiate(Attacks, new Vector3(transform.position.x, transform.position.y + 5f, transform.position.z), Quaternion.identity);
+            Destroy(attackInstance, 1f);
+            lastAttackTime = Time.time;
+        }
+
     }
 }
 

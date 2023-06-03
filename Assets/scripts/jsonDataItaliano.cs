@@ -23,7 +23,7 @@ public class jsonDataItaliano : MonoBehaviour
 
     public int points = 0;
 
-    private int difficulty = 1;
+    private int difficulty;
 
     private dataClass d;
 
@@ -45,9 +45,9 @@ public class jsonDataItaliano : MonoBehaviour
     }
 
 
-    void Start()
+    void OnEnable()
     {
-
+        difficulty = Random.Range(1,3);
         timerMax = 30;
         startTimer = Time.time;
 

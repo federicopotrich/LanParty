@@ -15,7 +15,7 @@ public class MatematicaGameManager : MonoBehaviour
     public int target;
     public int currentValue;
 
-    public int difficulty = 1;
+    public int difficulty;
     public int points = 0;
     public bool substraction = false;
 
@@ -25,12 +25,9 @@ public class MatematicaGameManager : MonoBehaviour
     public Sprite [] numbers;
     // Start is called before the first frame update
 
-    public float startTimer, timerMax;
-
     void OnEnable()
     {
-        timerMax = 30;
-        startTimer = Time.time;
+        difficulty = Random.Range(1,4);
         points = 0;
         textTarget = GameObject.Find("Target").GetComponent<TextMeshProUGUI>();
         textCurrent = GameObject.Find("Current").GetComponent<TextMeshProUGUI>();
@@ -38,6 +35,7 @@ public class MatematicaGameManager : MonoBehaviour
         textTarget.text = "target: "+target;
         textCurrent.text = "total points "+ points;
         //DontDestroyOnLoad(GameObject.Find("Points"));
+        confirm();
     }
 
     private int[,] nextBigTable() {

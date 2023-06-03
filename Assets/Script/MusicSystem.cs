@@ -39,7 +39,7 @@ public class MusicSystem : MonoBehaviour
     private bool spawning;
     
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
         string file = File.ReadAllText("./Assets/Script/canzoni.json");
         file = file.Replace("[{","");
@@ -49,13 +49,7 @@ public class MusicSystem : MonoBehaviour
         spawning = false;
 
         GameObject floor = GameObject.Find("Floor");
-        difficulty=0;
-        switch(int.Parse(floor.tag)){
-            case 0: difficulty=0;break;
-            case 1: difficulty=0;break;
-            case 2: difficulty=1;break;
-            case 3: difficulty=2;break;
-        }
+        difficulty = Random.Range(1,4);
 
         for (int i = 0; i < files.Length; i++)
         {            

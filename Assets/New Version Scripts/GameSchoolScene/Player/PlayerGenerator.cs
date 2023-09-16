@@ -9,6 +9,7 @@ public class PlayerGenerator : MonoBehaviour
     void Start()
     {
         this.gameObject.AddComponent<InteractionPlayerClass>();
+        this.gameObject.AddComponent<Stats>();
     }
 
     // Update is called once per frame
@@ -42,6 +43,26 @@ public class InteractionPlayerClass : MonoBehaviour
         switch (col.gameObject.name)
         {
             case "Porta":
+                switch(col.gameObject.Transform.Parent){
+                    case "Italiano":
+                        UnityEngine.SceneManagement.SceneManager.LoadScene("ItalianoScene");
+                        break;
+                    
+                    case "Storia":
+                        UnityEngine.SceneManagement.SceneManager.LoadScene("StoriaScene");
+                        break;
+                    
+                    case "Matematica":
+                        UnityEngine.SceneManagement.SceneManager.LoadScene("MateScene");
+                        break;
+                    
+                    case "Musica":
+                        UnityEngine.SceneManagement.SceneManager.LoadScene("MiniGame_Musica");
+                        break;
+
+                    default:
+                    break;
+                }
                 break;
             case "Bancone":
                 break;
@@ -50,4 +71,64 @@ public class InteractionPlayerClass : MonoBehaviour
         }
     }
     
+}
+
+public class Stats : MonoBehaviour
+{
+    //Dichiarazione delle variabili
+    public int MaxHP, CurrentHP, coins = 0, floor, DmgDealt, armorValue;
+
+    //Funzione che aggiorna gli hp in base al danno
+    public void updateDamage(int dmg)
+    {
+        CurrentHP -= (dmg - (armorValue / 5));
+
+        if (CurrentHP <= 0)
+        {
+            score("death");
+        }
+    }
+
+    //Setta il danno fatto dal player
+    public void setDamageDealth(int dmg)
+    {
+        DmgDealt = dmg;
+    }
+
+    //Setta l'armor del player
+    public void setArmor(int armor)
+    {
+        armorValue = armor;
+        MaxHP = 100 + (3 * armorValue);
+        CurrentHP = MaxHP;
+    }
+
+    public void heal(int cura)
+    {
+        CurrentHP += cura;
+    }
+
+    public float scoreTeam; /*dato per score finale per il boss*/
+    public void score(string status)
+    {
+        switch (status)
+        {
+            case "slash":
+                scoreTeam += DmgDealt;
+                break;
+            case "death":
+                scoreTeam -= 30;
+                CurrentHP = MaxHP;
+                this.gameObject.transform.position = new Vector3(10f, 14f, 0);
+                break;
+            default:
+                break;
+        }
+
+        if (scoreTeam < 0)
+        {
+            scoreTeam = 0;
+        }
+    }
+
 }

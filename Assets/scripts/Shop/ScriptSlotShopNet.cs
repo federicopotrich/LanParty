@@ -50,7 +50,7 @@ public class ScriptSlotShopNet : MonoBehaviour
     {
         if (isArmor)
         {
-            GameObject.Find("Player").GetComponent<PlayerInventory>().SetArmor(item);
+            GameObject.Find("Player").GetComponent<Stats>().SetArmor(item);
         }
         else
         {

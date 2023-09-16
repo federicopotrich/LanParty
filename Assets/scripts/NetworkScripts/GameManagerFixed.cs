@@ -46,7 +46,6 @@ public class GameManagerFixed : NetworkBehaviour
                 //playerTransform.GetComponent<PlayerGameManager>().name = GameObject.Find("dataConnectedPlayers").GetComponent<C>().Players[clientId]._name;
                 //playerTransform.GetComponent<PlayerGameManager>().team = GameObject.Find("dataConnectedPlayers").GetComponent<C>().Players[clientId]._team;
                 //playerTransform.GetComponent<PlayerGameManager>().ip =  GetClientIPAddress(clientId);
-
                 //playerTransform.gameObject.layer = 12+ctr;
 
                 playerTransform.Find("CanvasStoria").gameObject.layer = 6+ctr;
@@ -69,20 +68,4 @@ public class GameManagerFixed : NetworkBehaviour
             ctr++;
         }
     }
-}
-
-public class ClientManager : NetworkBehaviour
-{
-    /*
-    // Example method to get client IP address from client ID
-    public string GetClientIPAddress(ulong clientId)
-    {
-        NetworkClient networkClient = NetworkManager.Singleton.ConnectedClientsList.(client => client.ClientId == clientId);
-        if (networkClient != null)
-        {
-            return networkClient.ClientAddress;
-        }
-        return null;
-    }
-    */
 }

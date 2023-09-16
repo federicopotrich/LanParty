@@ -47,6 +47,48 @@
             "immagine": "primaCrociata.jpg",
             "nome": "Prima Crociata",
             "anno": 1095
+        },
+        {
+            "id": 9,
+            "immagine": "primaGuerraMondiale.jpg",
+            "nome": "Inizio della Prima Guerra Mondiale",
+            "anno": 1914
+        },
+        {
+            "id": 10,
+            "immagine": "secondaGuerraMondiale.jpg",
+            "nome": "Inizio della Seconda Guerra Mondiale",
+            "anno": 1939
+        },
+        {
+            "id": 11,
+            "immagine": "primaGuerraMondiale.jpg",
+            "nome": "Fine della Prima Guerra Mondiale",
+            "anno": 1918
+        },
+        {
+            "id": 12,
+            "immagine": "secondaGuerraMondiale.jpg",
+            "nome": "Fine della Seconda Guerra Mondiale",
+            "anno": 1945
+        },
+        {
+            "id": 13,
+            "immagine": "crolloTorriGemelle.jpg",
+            "nome": "Crollo delle Torri Gemelle",
+            "anno": 2001
+        },
+        {
+            "id": 14,
+            "immagine": "morteGesu.jpg",
+            "nome": "Morte di Gesù",
+            "anno": 33
+        },
+        {
+            "id": 15,
+            "immagine": "atterraggioLuna.jpg",
+            "nome": "Atterraggio sulla Luna",
+            "anno": 1969
         }
     ]
 }

@@ -41,7 +41,7 @@
             "opere": [
                 "I promessi sposi"
             ],
-            "citazioni": "Or bene, questo matrimonio non s’ha da fare, né domani, né mai"
+            "citazioni": "Or bene, questo matrimonio non s'ha da fare, né domani, né mai"
         },
         {
             "poeta": "Luigi Pirandello",
@@ -53,7 +53,8 @@
         {
             "poeta": "Giovanni Pascoli",
             "opere": [
-                "Il fanciullino"
+                "Il fanciullino",
+                "X Agosto"
             ],
             "citazioni": "Piove sul bagnato: lagrime su sangue, e sangue su lagrime"
         },
@@ -70,7 +71,7 @@
                 "A mia moglie",
                 "Ernesto"
             ],
-            "citazioni": "Tu sei come una gravida giovenca (vacca)"
+            "citazioni": "Tu sei come una gravida giovenca"
         },
         {
             "poeta": "Giovanni Verga",
@@ -80,7 +81,8 @@
                 "Mastro Don Gesualdo",
                 "Il ciclo dei vinti",
                 "Novelle Rusticane",
-                "Vita dei campi"
+                "Vita dei campi",
+                "La Roba"
             ],
             "citazioni": "Chi fa credenza senza pegno, perde l'amico, la roba e l'ingegno"
         }

@@ -21,24 +21,24 @@ public class LobbyManager : NetworkBehaviour
 
     public void SetPlayerReady()
     {
-        if (!NetworkManager.Singleton.IsHost)
+        if (!IsHost)
         {
             TMP_InputField inputField = FindObjectOfType<TMP_InputField>();
             TMP_Dropdown dropDownField = FindObjectOfType<TMP_Dropdown>();
 
             if(inputField.text == "" ){
-                SetPlayerReadyServerRpc("UknownName", "1A");
+                SetPlayerReadyServerRpc("UknownName", 0);
             }
             if (inputField != null && inputField.text != "" && dropDownField != null)
             {
                 string playerName = inputField.text.Length > 10 ? inputField.text.Substring(0, 10) : inputField.text;
-                string playerTeam = dropDownField.options[dropDownField.value].text;
+                int playerTeam = int.Parse(dropDownField.options[dropDownField.value].text);
                 SetPlayerReadyServerRpc(playerName, playerTeam);
             }
         }
         else
         {
-            SetPlayerReadyServerRpc("host", "null");
+            SetPlayerReadyServerRpc("host", -1);
         }
 
         btn.transform.Find("Text (TMP)").GetComponent<TextMeshProUGUI>().text += " √";
@@ -56,7 +56,7 @@ public class LobbyManager : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void SetPlayerReadyServerRpc(string playerName, string playerTeam, ServerRpcParams serverRpcParams = default)
+    private void SetPlayerReadyServerRpc(string playerName, int playerTeam, ServerRpcParams serverRpcParams = default)
     {
         UtenteReady u = new UtenteReady();
         u.ready = true;
@@ -94,7 +94,7 @@ public class UtenteReady
 {
     public bool ready;
     public string _name;
-    public string _team;
+    public int _team;
 }
 
 public class C : MonoBehaviour

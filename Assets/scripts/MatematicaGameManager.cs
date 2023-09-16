@@ -121,7 +121,6 @@ public class MatematicaGameManager : MonoBehaviour
             }
         }
     }
-
     public void confirm(){
         Debug.Log(currentPosI+" "+ currentPosJ +" " +currentValue+" " +target);
         if(currentValue == target &&  (currentPosI == 0 || currentPosI == 4 || currentPosJ == 0 || currentPosJ == 4)){

@@ -3,81 +3,58 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using Newtonsoft.Json;
+using System.IO;
+using UnityEngine.EventSystems;
 public class StoriaGameManager : MonoBehaviour
 {
-    public GameObject [] quesiti;
-    public int [] quesitiRisolti = {-1, -1, -1}; // -1 = quesito non svolto | 0 = quesito errato | 1 = quesito corretto
+
+    public GameObject[] quesiti;
+    public Sprite s;
+    public int score = 0;
     // Start is called before the first frame update
-    int index = 0;
-
-     public float startTimer, timerMax;
-
-
-    bool b = true;
+    public quest[] arrayData;
+    public GameObject btn;
+    public int random;
+    public quest q;
+    [System.Serializable]
+    public class dataClass
+    {
+        public quest[] data;
+    }
+    public class quest
+    {
+        public int id;
+        public string immagine;
+        public string nome;
+        public int anno;
+    }
     void Start()
     {
-        timerMax = 30;
-        startTimer = Time.time;
-        List<int> l = GenerateRandom(3, 0, GameObject.Find("JsonStoria").GetComponent<jsonData>().arrayData.Length);
-        for (int i = 0; i < 3; i++)
-        {
-            GameObject dataStoria = new GameObject("DataStoria" + (i+1));
+        GameObject.Find("Player").GetComponent<PlayerControllerNet>().speed = 0;
+        string filePath = Application.dataPath + "/StreamingAssets/storia.json";
+        dataClass d = JsonConvert.DeserializeObject<dataClass>(File.ReadAllText(filePath));
+        arrayData = d.data;
+    
+        random = UnityEngine.Random.Range(1, 16);
+        q = new quest();
+        q.id = d.data[random].id;
+        q.nome = d.data[random].nome;
+        q.anno = d.data[random].anno;
+        q.immagine = d.data[random].immagine;
 
-            dataStoria.transform.SetParent(this.gameObject.transform);
+        GameObject.Find("TestoAnno").GetComponent<TMPro.TextMeshProUGUI>().text = GameObject.Find("Slider").GetComponent<UnityEngine.UI.Slider>().value + " DC";
+        string replacedString = q.immagine.Replace(".png", "");
+        replacedString = replacedString.Replace(".jpg", "");
+        GameObject.Find("ImageStoria").GetComponent<UnityEngine.UI.Image>().sprite = Resources.Load<Sprite>(replacedString);
 
-            dataStoria.AddComponent<storiaData>();
-            dataStoria.GetComponent<storiaData>().id = GameObject.Find("JsonStoria").GetComponent<jsonData>().arrayData[l[i]].id;
-            dataStoria.GetComponent<storiaData>().nome = GameObject.Find("JsonStoria").GetComponent<jsonData>().arrayData[l[i]].nome;
-            dataStoria.GetComponent<storiaData>().anno = GameObject.Find("JsonStoria").GetComponent<jsonData>().arrayData[l[i]].anno;
-            dataStoria.GetComponent<storiaData>().immagine = GameObject.Find("JsonStoria").GetComponent<jsonData>().arrayData[l[i]].immagine;
-        }
-        GameObject[] quesitiNew = new GameObject[]
-        {
-            this.gameObject.transform.Find("DataStoria1").gameObject,
-            this.gameObject.transform.Find("DataStoria2").gameObject,
-            this.gameObject.transform.Find("DataStoria3").gameObject
-        };
-        quesiti = quesitiNew;
-        b = true;
-        index = 0;
-        if(quesiti.Length > 0){
-
-            if(index <=2){
-                GameObject.Find("TestoAnno").GetComponent<TMPro.TextMeshProUGUI>().text = GameObject.Find("Slider").GetComponent<UnityEngine.UI.Slider>().value+" DC";
-                string replacedString = quesiti[index].GetComponent<storiaData>().immagine.Replace(".png", "");
-                replacedString = replacedString.Replace(".jpg", "");
-                GameObject.Find("ImageStoria").GetComponent<UnityEngine.UI.Image>().sprite = Resources.Load<Sprite>(replacedString);
-
-                Debug.Log(quesiti[index].GetComponent<storiaData>().anno);
-            }
-            if(index == 3 && b){
-                SceneManager.UnloadSceneAsync("StoriaScene");
-                b=false;
-            }
-
-        }
     }
-    // Update is called once per frame
-    void Update()
+    public void checkAnswer()
     {
-        float elapsedTime = Time.time - startTimer;
-        if(elapsedTime >= timerMax){
-            this.gameObject.transform.parent.gameObject.SetActive(false);
+        if(Math.Abs(q.anno - GameObject.Find("Slider").GetComponent<UnityEngine.UI.Slider>().value) <= 5){
+            score++;
         }
-    }
-    public void checkAnswer(){
-        if(index <=2){
-            string replacedString = quesiti[index].GetComponent<storiaData>().immagine.Replace(".png", "");
-            replacedString = replacedString.Replace(".jpg", "");
-            GameObject.Find("ImageStoria").GetComponent<UnityEngine.UI.Image>().sprite = Resources.Load<Sprite>(replacedString);
-
-            //Debug.Log(quesiti[index].GetComponent<storiaData>().anno);
-        }
-        if(index == 3){
-            this.gameObject.transform.parent.gameObject.SetActive(false);
-        }
-        index++;
+        Start();
     }
     public static List<int> GenerateRandom(int Lenght, int min, int max)
     {
@@ -100,7 +77,11 @@ public class StoriaGameManager : MonoBehaviour
         }
         return list;
     }
-    public void updateValue(){
-        GameObject.Find("TestoAnno").GetComponent<TMPro.TextMeshProUGUI>().text = GameObject.Find("Slider").GetComponent<UnityEngine.UI.Slider>().value+" DC";
+    public void updateValue()
+    {
+        GameObject.Find("TestoAnno").GetComponent<TMPro.TextMeshProUGUI>().text = GameObject.Find("Slider").GetComponent<UnityEngine.UI.Slider>().value + " DC";
     }
+}
+public class StoriaDataElement: MonoBehaviour{
+
 }

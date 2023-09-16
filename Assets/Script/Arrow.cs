@@ -7,7 +7,7 @@ public class Arrow : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        this.gameObject.layer = this.transform.parent.gameObject.layer;
     }
 
     // Update is called once per frame

@@ -17,18 +17,23 @@ public class bossController : MonoBehaviour
 
     void Start()
     {
+        GameObject.Find("Player").GetComponent<PlayerGameManager>().Start();
+        GameObject.Find("Player").transform.position = new Vector3(10f, 14f, 0);
         speed = 10f;
         spotIndex = (int) Random.Range(0,3);
         b = false;
-        hp = maxHP = 50;
+        hp = maxHP = 7500;
         HPBar.maxValue = maxHP;
         HPBar.value = hp;
         StartCoroutine(ChangeBehaviour());
+        GameObject.Find("Health").GetComponent<Slider>().maxValue = GameObject.Find("Player").GetComponent<PlayerGameManager.Stats>().MaxHP;
+        GameObject.Find("Health").GetComponent<Slider>().value = GameObject.Find("Player").GetComponent<PlayerGameManager.Stats>().CurrentHP;
     }
 
     void Update()
     {
         HPBar.value = hp;
+        GameObject.Find("Health").GetComponent<Slider>().value = GameObject.Find("Player").GetComponent<PlayerGameManager.Stats>().CurrentHP;
     }
 
     IEnumerator Move(){
@@ -70,7 +75,12 @@ public class bossController : MonoBehaviour
         if(coll.gameObject.tag=="PlayerAttack"){
             Debug.Log("AAAAAAAAAAAAAAAAAAAA");
             hp = hp - coll.gameObject.GetComponent<SlashScript>().damage;
+            GameObject.Find("Player").GetComponent<PlayerGameManager.Stats>().setDamageDealth(coll.gameObject.GetComponent<SlashScript>().damage);
+            GameObject.Find("Player").GetComponent<PlayerGameManager.Stats>().score("slash");
         }
-        PlayerDataMinigame.Instance.dmg +=  coll.gameObject.GetComponent<SlashScript>().damage;
+        //PlayerDataMinigame.Instance.dmg +=  coll.gameObject.GetComponent<SlashScript>().damage;
+        /*if(coll.gameObject.GetComponent<attacksPlayer>().namePlayer==player.GetComponent<PlayerGameManager>().networkPlayerName.Value){
+            player.GetComponent<PlayerGameManager.Stats>().score("slash");
+        }*/
     }
 }

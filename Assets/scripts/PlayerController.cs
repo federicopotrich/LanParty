@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(1.75f);
     }
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if(GameObject.Find("TextGold")){
             GameObject.Find("TextGold").GetComponent<TMPro.TextMeshProUGUI>().text = "" + coin;

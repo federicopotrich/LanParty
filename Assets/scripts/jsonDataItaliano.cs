@@ -47,11 +47,12 @@ public class jsonDataItaliano : MonoBehaviour
 
     void OnEnable()
     {
+        points = 0;
         difficulty = Random.Range(1,3);
         timerMax = 30;
         startTimer = Time.time;
 
-        jsonDataString = File.ReadAllText(Application.dataPath + "/json/italiano.json");
+        jsonDataString = File.ReadAllText(Application.dataPath + "/StreamingAssets/italiano.json");
         d = JsonConvert.DeserializeObject<dataClass>(jsonDataString);
         arrayData = d.data;
         btn1.onClick.AddListener(()=>{
@@ -67,13 +68,6 @@ public class jsonDataItaliano : MonoBehaviour
             bttn4();
         });
         init();
-    }
-    void Update()
-    {
-        float elapsedTime = Time.time - startTimer;
-        if(elapsedTime >= timerMax){
-            this.transform.parent.gameObject.SetActive(false);
-        }
     }
 
     public void init()
@@ -131,6 +125,7 @@ public class jsonDataItaliano : MonoBehaviour
         btn3.GetComponentInChildren<TextMeshProUGUI>().text = "" + d.opzioni[numbers[2]];
         btn4.GetComponentInChildren<TextMeshProUGUI>().text = "" + d.opzioni[numbers[3]];
         Debug.Log("score: "+ points);
+        Debug.Log(target.poeta);
     }
 
     public void bttn1()

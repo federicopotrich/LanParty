@@ -6,14 +6,17 @@ using System.IO;
 
 public class jsonData : MonoBehaviour
 {
+    public TextAsset TheJSONFile;
     private string jsonDataString;
-    public quest [] arrayData;
+    public quest[] arrayData;
 
     [System.Serializable]
-    public class dataClass{
+    public class dataClass
+    {
         public quest[] data;
     }
-    public class quest{
+    public class quest
+    {
         public int id;
         public string immagine;
         public string nome;
@@ -21,9 +24,16 @@ public class jsonData : MonoBehaviour
     }
     void Start()
     {
+        // Utilizza la variabile "jsonString" come desideri
 
-        jsonDataString = File.ReadAllText(Application.dataPath + "/json/storia.json");
-        dataClass d = JsonConvert.DeserializeObject<dataClass>(jsonDataString);
+        string filePath = Application.dataPath + "/StreamingAssets/storia.json";
+        //Debug.Log(Application.dataPath);
+        if (!File.Exists(filePath))
+        {
+            Debug.Log("ciao file json non trovato");
+        }
+        dataClass d = JsonConvert.DeserializeObject<dataClass>(File.ReadAllText(filePath));
+        Debug.Log(d.data.Length);
         arrayData = d.data;
         /*foreach (var item in arrayData)
         {
@@ -32,11 +42,6 @@ public class jsonData : MonoBehaviour
             Debug.Log(item.nome);
             Debug.Log(item.anno);
         }*/
-        
-        
-    }
-    void Update(){
-        
     }
 
 }

@@ -22,6 +22,7 @@ TagManager:
   - Piani
   - NoteBlock
   - Note
+  - class
   layers:
   - Default
   - TransparentFX

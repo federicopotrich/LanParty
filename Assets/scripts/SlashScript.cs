@@ -23,4 +23,9 @@ public class SlashScript : MonoBehaviour
         yield return new WaitForSeconds(timeout);
         Destroy(this.gameObject);
     }
+    void OnTriggerEnter2D(Collider2D coll){
+        if(coll.gameObject.name == "boss"){
+            GameObject.Find("Player").GetComponent<PlayerGameManager.Stats>().score("slash");            
+        }
+    }
 }

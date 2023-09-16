@@ -29,5 +29,13 @@ public class AttackScript : MonoBehaviour
         yield return new WaitForSeconds(1f);
         active = true;
     }
-
+    void OnTriggerEnter2D(Collider2D coll){
+        if(coll.gameObject.tag == "Player"){
+            if(coll.gameObject.GetComponent<PlayerGameManager.Stats>().CurrentHP - (dmg/5) >= 0){
+                coll.gameObject.GetComponent<PlayerGameManager.Stats>().updateDamage(dmg);
+            }else{
+                coll.gameObject.GetComponent<PlayerGameManager.Stats>().score("death");
+            }
+        }
+    }
 }

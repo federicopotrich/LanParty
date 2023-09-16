@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System.IO;
 using TMPro;
 
@@ -34,22 +35,21 @@ public class MusicSystem : MonoBehaviour
     public GameObject AnswerSheet; 
     private string SongName;
     string [] songNames=new string[9];
-    private int difficulty;
+    private int difficulty, numNote;
 
     private bool spawning;
     
     // Start is called before the first frame update
     void OnEnable()
     {
-        string file = File.ReadAllText("./Assets/Script/canzoni.json");
+        string file = File.ReadAllText( Application.dataPath +"/StreamingAssets/canzoni.json");
         file = file.Replace("[{","");
         file = file.Replace("}]","");
         string[] files = file.Split("},");
         songs= new Song[files.Length];
         spawning = false;
 
-        GameObject floor = GameObject.Find("Floor");
-        difficulty = Random.Range(1,4);
+        difficulty = Random.Range(0,3);
 
         for (int i = 0; i < files.Length; i++)
         {            
@@ -60,7 +60,7 @@ public class MusicSystem : MonoBehaviour
             songNames[i] = songNames[i].Replace(",","");
             songs[i] = new Song(StringToArray(arrayFile[3]),StringToArray(arrayFile[5]),StringToArray(arrayFile[7]),StringToArray(arrayFile[9]));
         }
-        Invoke("PlayMusic",2.549998f);
+        Invoke("PlayMusic",1.549998f);
         index = (int) Random.Range(0,3)+3*difficulty;
         Notes(songs[index]);
         SongName=songNames[index];
@@ -152,33 +152,35 @@ public class MusicSystem : MonoBehaviour
                 Invoke("SpawnYellowNote",song.yellow[i]);
             if(song.green.Length>i)
                 Invoke("SpawnGreenNote",song.green[i]);
+            
+            numNote++;
         }
     }
 
     public void SpawnRedNote(){
         spawning=true;
-        GameObject noteTmp = Instantiate(note, redSpawner.transform.position, Quaternion.identity);
+        GameObject noteTmp = Instantiate(note, new Vector3(redSpawner.transform.position.x+65, redSpawner.transform.position.y, redSpawner.transform.position.z), Quaternion.identity);
         noteTmp.GetComponent<Image>().color = Color.red;
         noteTmp.transform.SetParent(redSpawner.transform, false);
     }
 
     public void SpawnBlueNote(){
         spawning=true;
-        GameObject noteTmp = Instantiate(note, blueSpawner.transform.position, Quaternion.identity);
+        GameObject noteTmp = Instantiate(note, new Vector3(blueSpawner.transform.position.x+65, blueSpawner.transform.position.y, blueSpawner.transform.position.z), Quaternion.identity);
         noteTmp.GetComponent<Image>().color = Color.blue;
         noteTmp.transform.SetParent(blueSpawner.transform, false);
     }
 
     public void SpawnYellowNote(){
         spawning=true;
-        GameObject noteTmp = Instantiate(note, yellowSpawner.transform.position, Quaternion.identity);
+        GameObject noteTmp = Instantiate(note, new Vector3(yellowSpawner.transform.position.x+65, yellowSpawner.transform.position.y, yellowSpawner.transform.position.z), Quaternion.identity);
         noteTmp.GetComponent<Image>().color = Color.yellow;
         noteTmp.transform.SetParent(yellowSpawner.transform, false);
     }
 
     public void SpawnGreenNote(){
         spawning=true;
-        GameObject noteTmp = Instantiate(note, greenSpawner.transform.position, Quaternion.identity);
+        GameObject noteTmp = Instantiate(note, new Vector3(greenSpawner.transform.position.x+65, greenSpawner.transform.position.y, greenSpawner.transform.position.z), Quaternion.identity);
         noteTmp.GetComponent<Image>().color = Color.green;
         noteTmp.transform.SetParent(greenSpawner.transform, false);
     }
@@ -190,14 +192,14 @@ public class MusicSystem : MonoBehaviour
     }
 
     void IncrementPoints(){
-        ScoreText.gameObject.GetComponent<Animator>().SetBool("Hit",true);    
-        score += 25;
+        ScoreText.gameObject.GetComponent<Animator>().SetBool("Hit",true);
+        score += 40;
         ScoreText.text = "Score: "+score;
     }
 
     void DecrementPoints(){
         ScoreText.gameObject.GetComponent<Animator>().SetBool("Failed",true);
-        score-=100;
+        score-=30;
         if(score<=0)
             score=0;
         ScoreText.text = "Score: "+score;
@@ -206,6 +208,9 @@ public class MusicSystem : MonoBehaviour
     void FinalQuestionStarter(){
         spawning=false;
         AnswerSheet.SetActive(true);
+        GameObject.Find("Domanda Finale").GetComponent<Canvas>().worldCamera = GameObject.Find("Player").GetComponent<PlayerGameManager>().cameraPlayer.GetComponent<Camera>();
+        GameObject.Find("Domanda Finale").transform.localScale = new Vector3(0.055f, 0.055f, 0.055f);
+        GameObject.Find("Domanda Finale").transform.position = GameObject.Find("Player").transform.position;
         switch(difficulty){
             case 0:
                 for(int i=0;i<AnswerButtons.Length;i++){
@@ -287,11 +292,13 @@ public class MusicSystem : MonoBehaviour
     }
     public void Answer(int index){
         string answer=AnswerButtons[index].text.Trim();
-        Debug.Log(answer);
+        Debug.Log(score);
         if(answer==SongName)
-            Debug.Log("Risposta Corretta");
+            GameObject.Find("Player").GetComponent<PlayerGameManager.Stats>().coins = score/150;//this.transform.parent.parent.gameObject.GetComponent<PlayerGameManager.Stats>().coins+=(int)((score/150));
         else
-           Debug.Log("Risposta Errata"); 
+            GameObject.Find("Player").GetComponent<PlayerGameManager.Stats>().coins = score/200;//this.transform.parent.parent.gameObject.GetComponent<PlayerGameManager.Stats>().coins+=(int)((score/200));
+        GameObject.Find("Player").GetComponent<PlayerControllerNet>().speed = 10;
+        UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync("MiniGame_Musica");
     }
 }
 

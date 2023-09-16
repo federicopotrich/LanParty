@@ -50,11 +50,11 @@ public class ScriptSlotShopNet : MonoBehaviour
     {
         if (isArmor)
         {
-            GameObject.Find("Player").GetComponent<Stats>().SetArmor(item);
+            GameObject.Find("Player").GetComponent<Stats>().setArmor(item.valoreArmatura);
         }
         else
         {
-            GameObject.Find("Player").GetComponent<PlayerInventory>().SetWeapon(item);
+            GameObject.Find("Player").GetComponent<Stats>().setDamageDealth(item.damage);
         }
 
         // Cambia il testo del pulsante in "Equip"

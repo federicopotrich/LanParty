@@ -43,21 +43,21 @@ public class InteractionPlayerClass : MonoBehaviour
         switch (col.gameObject.name)
         {
             case "Porta":
-                switch(col.gameObject.Transform.Parent){
+                switch(col.gameObject.transform.parent.gameObject.name){
                     case "Italiano":
-                        UnityEngine.SceneManagement.SceneManager.LoadScene("ItalianoScene");
+                        UnityEngine.SceneManagement.SceneManager.LoadScene("ItalianoScene", UnityEngine.SceneManagement.LoadSceneMode.Additive);
                         break;
                     
                     case "Storia":
-                        UnityEngine.SceneManagement.SceneManager.LoadScene("StoriaScene");
+                        UnityEngine.SceneManagement.SceneManager.LoadScene("StoriaScene", UnityEngine.SceneManagement.LoadSceneMode.Additive);
                         break;
                     
                     case "Matematica":
-                        UnityEngine.SceneManagement.SceneManager.LoadScene("MateScene");
+                        UnityEngine.SceneManagement.SceneManager.LoadScene("MateScene", UnityEngine.SceneManagement.LoadSceneMode.Additive);
                         break;
                     
                     case "Musica":
-                        UnityEngine.SceneManagement.SceneManager.LoadScene("MiniGame_Musica");
+                        UnityEngine.SceneManagement.SceneManager.LoadScene("MiniGame_Musica", UnityEngine.SceneManagement.LoadSceneMode.Additive);
                         break;
 
                     default:
